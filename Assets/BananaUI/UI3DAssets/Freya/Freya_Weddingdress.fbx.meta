@@ -1,0 +1,237 @@
+fileFormatVersion: 2
+guid: 3a182ad176550f240aa66e24ae31f7d9
+labels:
+- NiloToonBakeSmoothNormalTSIntoUV8
+ModelImporter:
+  serializedVersion: 24200
+  internalIDToNameTable: []
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_FreyaSword_01
+    second: {fileID: 2100000, guid: 15422a5537b23f944b4752fcaef97d3f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_FreyaSword_02
+    second: {fileID: 2100000, guid: 9096ad9ecc9e05f4f8b0833ac4bcc7f2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_FreyaSword_03
+    second: {fileID: 2100000, guid: a64d64800783e4e4f860608402ffcc22, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_FreyaSword_04
+    second: {fileID: 2100000, guid: 3f6cb53c2b4bf2b4c932a5b26ed5da6d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_FreyaSword_05
+    second: {fileID: 2100000, guid: 1869411220118d543aa8dddc5fd5b312, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_FreyaSword_Glass
+    second: {fileID: 2100000, guid: 1b71ebf4f40b51f47a06ab49eb5a9b40, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Freya_Body
+    second: {fileID: 2100000, guid: 74ebd77f2d8ec4d4caeb9c28a0b192e7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Freya_Eyelash
+    second: {fileID: 2100000, guid: 46093fb7f0c5de74097dc88717441e64, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Freya_Eyelight
+    second: {fileID: 2100000, guid: b07bde79ba4c76040974306003c90100, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Freya_Eyes
+    second: {fileID: 2100000, guid: 5ba679b681ff1964b93c1fce7838a976, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Freya_Eyes_Shadow
+    second: {fileID: 2100000, guid: 2e64eedf4549ff349bbb121a677d1409, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Freya_Eyesbrow
+    second: {fileID: 2100000, guid: 1ca9bb05e76f3f4439029fd5f460e25d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Freya_Face
+    second: {fileID: 2100000, guid: ecdbeaf5b1a651a409f043a0b98bde57, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Freya_Facial
+    second: {fileID: 2100000, guid: 11e736da1f26c45498b99965662b012d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Freya_HairSide
+    second: {fileID: 2100000, guid: 875a765b4e8caa44390be192807477b9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Freya_Hairback
+    second: {fileID: 2100000, guid: 6c5d64eb4a10d5243abaca558faa4cf8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Freya_Hairfront_001
+    second: {fileID: 2100000, guid: edcf5703dde308c4e8d77c0a60cbf0e6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Freya_Hairfront_002
+    second: {fileID: 2100000, guid: cead4961ce3885642bdf17eca720726d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Freya_Hairfront_003
+    second: {fileID: 2100000, guid: 42193036c83804a4787278bdff3c5c1b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Freya_Weddingdress
+    second: {fileID: 2100000, guid: 099640aa1628a7f47ad125982694f1c4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Freya_Weddingdress_Alphacut
+    second: {fileID: 2100000, guid: 5163b7f507d08934e897fd75f4e49275, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Freya_Weddingdress_Offline
+    second: {fileID: 2100000, guid: 36acac8874904bb4f8282dfef22fb2b1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Freya_Weddingdress_Skin
+    second: {fileID: 2100000, guid: 77c627a267c4b534bb053651abf1668d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MT_Freya_Weddingdress_offline
+    second: {fileID: 2100000, guid: 36acac8874904bb4f8282dfef22fb2b1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: TransparentDepthPass
+    second: {fileID: 2100000, guid: 844d7c272bb0a674bbc4879665f08185, type: 2}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 1
+    maxBonesPerVertex: 8
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    generateMeshLods: 0
+    meshLodGenerationFlags: 0
+    maximumMeshLod: -1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    strictVertexDataChecks: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 2
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: Geometry
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 1
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

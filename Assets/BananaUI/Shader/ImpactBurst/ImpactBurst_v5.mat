@@ -1,0 +1,80 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: ImpactBurst_v5
+  m_Shader: {fileID: 4800000, guid: 4b86273fe4cd2964b859c7ab88c82433, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses:
+  - MOTIONVECTORS
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _BorderWidth: 0.214
+    - _CenterHole: 0.182
+    - _CornerBias: 0
+    - _FlameStretch: 3.1
+    - _GlowRadius: 0.1
+    - _HoleSharp: 40
+    - _Intensity: 2.01
+    - _NoisePower: 0.91
+    - _NoiseScale: 4.6
+    - _NoiseSpeed: 0.3
+    - _Progress: 0.489
+    - _PulseAmp: 0
+    - _PulseSpeed: 0
+    - _RayCount: 4
+    - _RaySharpness: 20
+    - _RingSpeed: 0.74
+    - _RingWidth: 0.16
+    - _RotationSpeed: 0.21
+    - _SpikeCount: 16
+    - _SpikeSharp: 16.5
+    - _SwrlSpeed: -0.05
+    - _Turbulence: 1.26
+    - _WaveAmp: 0.034
+    - _WaveCount: 7.3
+    - _WaveFreqX: 2.26
+    - _WaveFreqY: 2.43
+    - _WaveNoise: 0.4
+    - _WaveSpeed: 0.04
+    m_Colors:
+    - _ColorCore: {r: 0.5, g: 0.9, b: 1, a: 1}
+    - _ColorFlame: {r: 0.049999982, g: 0.19999996, b: 1, a: 1}
+    - _ColorInner: {r: 0.19215688, g: 0.19215688, b: 0.22352943, a: 1}
+    - _ColorOuter: {r: 0.44656688, g: 0.3820755, b: 1, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
+--- !u!114 &5360861112391290972
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Editor::UnityEditor.Rendering.Universal.AssetVersion
+  version: 10
