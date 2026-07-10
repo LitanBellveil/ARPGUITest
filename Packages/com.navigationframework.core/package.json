@@ -1,0 +1,19 @@
+{
+  "name": "com.navigationframework.core",
+  "version": "0.1.0",
+  "displayName": "Navigation Framework",
+  "description": "An input-agnostic UI navigation framework for UGUI. Provides a graph-based data model (nodes, connections, groups, pages) and a runtime that exposes Move/Submit/Cancel, decoupled from any specific input source. Includes a GraphView-based editor for authoring navigation graphs.",
+  "unity": "6000.3",
+  "keywords": [
+    "ui",
+    "navigation",
+    "ugui",
+    "gamepad",
+    "console",
+    "focus"
+  ],
+  "author": {
+    "name": "ARPGUITest"
+  },
+  "samples": []
+}

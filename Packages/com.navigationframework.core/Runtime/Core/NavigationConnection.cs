@@ -1,0 +1,53 @@
+using System;
+using UnityEngine;
+
+namespace NavigationFramework
+{
+    /// <summary>
+    /// A single directed edge from one <see cref="NavigationNode"/> to another. Nodes reference
+    /// their target by <see cref="TargetNodeId"/> (a GUID) rather than a direct object reference,
+    /// so the graph survives being serialized as plain data and copy/pasted or duplicated in the
+    /// editor without Unity's serializer breaking reference cycles between plain C# classes.
+    /// </summary>
+    [Serializable]
+    public sealed class NavigationConnection
+    {
+        [SerializeField] private string targetNodeId;
+        [SerializeField] private Direction direction;
+        [SerializeField] private int priority;
+        [SerializeField] private bool isEnabled = true;
+
+        /// <summary> Creates a connection to <paramref name="targetNodeId"/> for the given <paramref name="direction"/>. </summary>
+        public NavigationConnection(string targetNodeId, Direction direction, int priority = 0, bool isEnabled = true)
+        {
+            this.targetNodeId = targetNodeId;
+            this.direction = direction;
+            this.priority = priority;
+            this.isEnabled = isEnabled;
+        }
+
+        /// <summary> GUID of the <see cref="NavigationNode"/> this connection points to. </summary>
+        public string TargetNodeId => targetNodeId;
+
+        /// <summary> Direction this connection is followed for. </summary>
+        public Direction Direction => direction;
+
+        /// <summary>
+        /// Selection weight among multiple connections that share the same <see cref="Direction"/>
+        /// on the same node (e.g. two candidate "Down" edges). The highest priority wins; ties
+        /// fall back to declaration order. This is what lets a single node have several outgoing
+        /// edges per direction, resolved by rule instead of by only ever allowing one.
+        /// </summary>
+        public int Priority => priority;
+
+        /// <summary>
+        /// Whether this connection currently participates in navigation. Disabled connections stay
+        /// in the graph — this is the hook for conditional navigation (e.g. a shortcut edge that
+        /// only exists while a certain gameplay flag is set) without editing the graph asset at runtime.
+        /// </summary>
+        public bool IsEnabled => isEnabled;
+
+        /// <summary> Enables or disables this connection at runtime without removing it from the graph. </summary>
+        public void SetEnabled(bool value) => isEnabled = value;
+    }
+}
