@@ -26,6 +26,23 @@ namespace NavigationFramework.Editor
             window.Load(target);
         }
 
+        /// <summary>
+        /// Rebuilds the view for <paramref name="target"/> if a window is already showing it,
+        /// without opening a new window or stealing focus. Used after batch operations that mutate
+        /// the graph from outside the window (Generate From Scene, Auto Connect) so their result is
+        /// visible immediately instead of only after the window is closed and reopened.
+        /// </summary>
+        public static void RefreshIfOpen(NavigationGraph target)
+        {
+            foreach (NavigationGraphEditorWindow window in Resources.FindObjectsOfTypeAll<NavigationGraphEditorWindow>())
+            {
+                if (window.graph == target)
+                {
+                    window.Load(target);
+                }
+            }
+        }
+
         [OnOpenAsset]
         private static bool OnOpenAsset(int instanceId, int line)
         {

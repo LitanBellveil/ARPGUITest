@@ -6,11 +6,12 @@ using UnityEngine;
 namespace NavigationFramework.Editor
 {
     /// <summary>
-    /// Adds an "Open Graph Window" button, "Generate From Scene" (Phase 5), and Group/Page
-    /// management (add/rename/remove) to the default Inspector for <see cref="NavigationGraph"/>.
-    /// Node and connection editing lives entirely in <see cref="NavigationGraphEditorWindow"/> —
-    /// groups, pages, and scene generation are edited here instead, since they are graph-wide
-    /// actions/metadata rather than something naturally represented as a GraphView node or edge.
+    /// Adds an "Open Graph Window" button, "Generate From Scene" (Phase 5), "Auto Connect"
+    /// (Phase 6), and Group/Page management (add/rename/remove) to the default Inspector for
+    /// <see cref="NavigationGraph"/>. Node and connection editing lives entirely in
+    /// <see cref="NavigationGraphEditorWindow"/> — groups, pages, and the batch generation actions
+    /// are edited here instead, since they are graph-wide actions/metadata rather than something
+    /// naturally represented as a GraphView node or edge.
     /// </summary>
     [CustomEditor(typeof(NavigationGraph))]
     public sealed class NavigationGraphEditor : UnityEditor.Editor
@@ -26,6 +27,8 @@ namespace NavigationFramework.Editor
 
             EditorGUILayout.Space();
             DrawGenerateFromScene(graph);
+            EditorGUILayout.Space();
+            DrawAutoConnect(graph);
             EditorGUILayout.Space();
             DrawGroups(graph);
             EditorGUILayout.Space();
@@ -50,7 +53,20 @@ namespace NavigationFramework.Editor
                 if (GUILayout.Button("Generate From Scene"))
                 {
                     NavigationSceneGenerator.GenerateFromScene(graph, scanRoot);
+                    NavigationGraphEditorWindow.RefreshIfOpen(graph);
                 }
+            }
+        }
+
+        private void DrawAutoConnect(NavigationGraph graph)
+        {
+            EditorGUILayout.LabelField("Auto Connect", EditorStyles.boldLabel);
+            EditorGUILayout.HelpBox("Regenerates every auto-generated connection from node RectTransform geometry (nearest neighbor per direction, within the same Group and Page). Hand-drawn connections in the Graph Window are never touched.", MessageType.None);
+
+            if (GUILayout.Button("Auto Connect"))
+            {
+                NavigationAutoConnector.AutoConnect(graph);
+                NavigationGraphEditorWindow.RefreshIfOpen(graph);
             }
         }
 
