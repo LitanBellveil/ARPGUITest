@@ -116,3 +116,48 @@ verbs described in the Goal section.
   wraparound or "nearest selectable" fallback was judged premature without a concrete sample asking
   for it — flagging here in case a specific screen (e.g. a Carousel) needs it, which would be
   handled in that sample rather than in the core manager.
+
+## Phase 3 — Editor Graph Window
+
+A GraphView (UI Toolkit) based window for authoring `NavigationGraph` assets, all in the
+`NavigationFramework.Editor` assembly (`Editor/`), which references Runtime only.
+
+| Type | Role |
+|---|---|
+| `NavigationGraphEditorWindow` | The `EditorWindow`. Opens via an "Open Graph Window" button on the asset's Inspector or by double-clicking the asset (`[OnOpenAsset]`). Hosts a `NavigationGraphView` and a `NavigationGraphInspectorPanel` side by side in a `TwoPaneSplitView`. A single window instance is reused across graphs. |
+| `NavigationGraphView` | The `GraphView` canvas. Builds one `NavigationNodeView` per `NavigationNode` and one `Edge` per `NavigationConnection`; keeps the graph asset in sync as nodes are dragged, created (right-click → "Create Node"), or deleted, and as edges are drawn or removed. |
+| `NavigationNodeView` | A `Node` with one generic "In" port (`Port.Capacity.Multi`) and four directional output ports — Up/Down/Left/Right (also `Multi`, since a node can have several same-direction connections; see `NavigationConnection.Priority`). Dragging an edge from a directional output port to another node's input port is what creates a `NavigationConnection` for that direction. Overrides `SetPosition` to keep `NavigationNode.EditorPosition` live while dragging. |
+| `NavigationGraphInspectorPanel` | Side panel showing fields for whatever is selected: a node's display name/group/page/default/enabled/scene references, or a connection's priority/enabled. Empty or multi-element selections show a hint instead — bulk editing isn't part of Phase 3. |
+| `NavigationGraphEditor` | `[CustomEditor(NavigationGraph)]`. Adds the "Open Graph Window" button plus add/rename/remove for Groups and Pages — graph-wide metadata that doesn't map naturally onto a GraphView node or edge. |
+
+### Design notes and deviations
+
+- **Groups and Pages are edited in the plain Inspector, not inside the GraphView.** They're
+  graph-wide lists (not per-node), so there's no natural node/edge to represent them on the canvas.
+  Node-level assignment (which group/page a node belongs to) is still done inside the GraphView's
+  side panel, via a dropdown populated from the Inspector-managed lists.
+- **Connection `Priority`/`Enabled` are edited via the side panel, not on the edge itself.**
+  GraphView's default `Edge` has no inline label/field UI, and building a custom edge visual with an
+  embedded control was judged more effort than Phase 3 needs — select the edge, then edit it in the
+  panel. `Direction` is shown read-only there since it's fixed by which output port the edge came
+  from.
+- **Three Phase 1 data classes gained mutators they didn't have.** Authoring priority, renaming
+  nodes/groups/pages, and editing a page's default node/entry mode all needed a setter that Phase 1
+  never added: `NavigationConnection.SetPriority`, `NavigationNode.SetDisplayName`,
+  `NavigationGroup.SetDisplayName`/`SetEnabledByDefault`, `NavigationPage.SetDisplayName`/
+  `SetDefaultNode`/`SetEntryMode`. These follow the exact pattern already established by Phase 1's
+  own `SetGroup`/`SetPage`/`SetDefault`/`SetEnabled`/`SetSceneReferences` — "intended for use by the
+  graph editor" was always the plan, Phase 1 just hadn't needed every setter yet.
+- **Setting a node "Is Default" clears the flag on every other node in the graph.**
+  `NavigationNode.IsDefault` has no built-in uniqueness constraint (Phase 1 didn't enforce one), but
+  `NavigationManager.SelectDefault()` only ever honors the *first* default node it finds — so the
+  editor enforces "at most one default per graph" itself when the toggle is checked, rather than
+  leaving multiple defaults silently possible with confusing runtime behavior.
+- **Persistence is just `EditorUtility.SetDirty` + Unity's normal save cycle.** Every mutation calls
+  `Undo.RecordObject` (so Ctrl+Z works) and marks the graph dirty, but there is no explicit "Save"
+  button or auto-save timer — that's Phase 4's job (Graph Save/Load + Auto Save). For now, saving a
+  graph means saving the project the normal way.
+- **`TwoPaneSplitView`/`TwoPaneSplitViewOrientation` live in `UnityEngine.UIElements`, not
+  `UnityEditor.UIElements`.** Worth calling out since older GraphView tutorials (and this package's
+  first draft) reference the pre-2021 namespace; Unity 6 has these types in the runtime UI Toolkit
+  module since the control is no longer editor-exclusive.

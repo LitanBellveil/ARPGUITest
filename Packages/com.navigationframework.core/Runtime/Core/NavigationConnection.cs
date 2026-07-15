@@ -49,5 +49,8 @@ namespace NavigationFramework
 
         /// <summary> Enables or disables this connection at runtime without removing it from the graph. </summary>
         public void SetEnabled(bool value) => isEnabled = value;
+
+        /// <summary> Changes the priority used to resolve ties among same-direction connections. Intended for use by the graph editor. </summary>
+        public void SetPriority(int value) => priority = value;
     }
 }

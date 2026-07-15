@@ -55,5 +55,14 @@ namespace NavigationFramework
 
         /// <summary> Policy applied when the manager switches focus onto this page. </summary>
         public PageEntryMode EntryMode => entryMode;
+
+        /// <summary> Renames this page. Intended for use by the graph editor. </summary>
+        public void SetDisplayName(string newDisplayName) => displayName = newDisplayName;
+
+        /// <summary> Changes the default/fallback node for this page. Intended for use by the graph editor. </summary>
+        public void SetDefaultNode(string newDefaultNodeId) => defaultNodeId = newDefaultNodeId;
+
+        /// <summary> Changes the entry policy applied when this page becomes active. Intended for use by the graph editor. </summary>
+        public void SetEntryMode(PageEntryMode value) => entryMode = value;
     }
 }

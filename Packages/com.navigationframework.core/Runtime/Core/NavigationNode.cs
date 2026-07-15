@@ -74,6 +74,9 @@ namespace NavigationFramework
         /// <summary> Enables or disables this node at runtime without removing it from the graph. </summary>
         public void SetEnabled(bool value) => isEnabled = value;
 
+        /// <summary> Renames this node. Intended for use by the graph editor. </summary>
+        public void SetDisplayName(string newDisplayName) => displayName = newDisplayName;
+
         /// <summary> Marks or unmarks this node as the graph's default. Intended for use by the graph editor. </summary>
         public void SetDefault(bool value) => isDefault = value;
 

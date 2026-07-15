@@ -32,5 +32,11 @@ namespace NavigationFramework
 
         /// <summary> Whether nodes in this group are navigable when the graph is first loaded. </summary>
         public bool EnabledByDefault => enabledByDefault;
+
+        /// <summary> Renames this group. Intended for use by the graph editor. </summary>
+        public void SetDisplayName(string newDisplayName) => displayName = newDisplayName;
+
+        /// <summary> Changes whether this group starts enabled. Intended for use by the graph editor. </summary>
+        public void SetEnabledByDefault(bool value) => enabledByDefault = value;
     }
 }
