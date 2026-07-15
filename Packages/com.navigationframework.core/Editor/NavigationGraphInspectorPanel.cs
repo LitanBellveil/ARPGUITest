@@ -174,6 +174,6 @@ namespace NavigationFramework.Editor
             }
         }
 
-        private void MarkDirty() => EditorUtility.SetDirty(graph);
+        private void MarkDirty() => NavigationGraphAutoSaver.Touch(graph);
     }
 }

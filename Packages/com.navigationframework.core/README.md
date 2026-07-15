@@ -14,7 +14,7 @@ examples (Character, Weapon, Inventory, Setting, Popup, Dialog, Carousel, Scroll
 
 ## Status
 
-This package is being built in reviewed phases. Current state: **Phase 3 — Editor Graph Window**.
+This package is being built in reviewed phases. Current state: **Phase 4 — Graph Save/Load + Auto Save**.
 See `CHANGELOG.md` for what has landed so far.
 
 ## Install

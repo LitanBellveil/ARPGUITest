@@ -13,8 +13,9 @@ namespace NavigationFramework.Editor
     /// The GraphView canvas for one open <see cref="NavigationGraph"/>. Builds a
     /// <see cref="NavigationNodeView"/> per <see cref="NavigationNode"/> and an <see cref="Edge"/>
     /// per <see cref="NavigationConnection"/>, and keeps the graph asset in sync as the user drags
-    /// nodes, draws/removes edges, or adds/removes nodes through the context menu. Persistence
-    /// beyond <see cref="EditorUtility.SetDirty"/> (explicit save, auto-save) is Phase 4's job.
+    /// nodes, draws/removes edges, or adds/removes nodes through the context menu. Every mutation
+    /// goes through <see cref="NavigationGraphAutoSaver.Touch"/>, which marks the asset dirty and
+    /// debounce-saves it (Phase 4).
     /// </summary>
     public sealed class NavigationGraphView : GraphView
     {
@@ -136,7 +137,7 @@ namespace NavigationFramework.Editor
             node.SetEditorPosition(position);
             Graph.AddNode(node);
             AddNodeView(node);
-            EditorUtility.SetDirty(Graph);
+            NavigationGraphAutoSaver.Touch(Graph);
         }
 
         private GraphViewChange OnGraphViewChanged(GraphViewChange change)
@@ -169,9 +170,14 @@ namespace NavigationFramework.Editor
                 }
             }
 
+            if (change.movedElements != null && change.movedElements.Count > 0)
+            {
+                changed = true;
+            }
+
             if (changed)
             {
-                EditorUtility.SetDirty(Graph);
+                NavigationGraphAutoSaver.Touch(Graph);
             }
 
             return change;

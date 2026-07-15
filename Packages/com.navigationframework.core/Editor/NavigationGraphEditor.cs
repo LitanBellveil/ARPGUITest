@@ -46,14 +46,14 @@ namespace NavigationFramework.Editor
                     Undo.RecordObject(graph, "Edit Navigation Group");
                     group.SetDisplayName(name);
                     group.SetEnabledByDefault(enabledByDefault);
-                    EditorUtility.SetDirty(graph);
+                    NavigationGraphAutoSaver.Touch(graph);
                 }
 
                 if (GUILayout.Button("Remove", GUILayout.Width(60)))
                 {
                     Undo.RecordObject(graph, "Remove Navigation Group");
                     graph.RemoveGroup(group);
-                    EditorUtility.SetDirty(graph);
+                    NavigationGraphAutoSaver.Touch(graph);
                     GUIUtility.ExitGUI();
                 }
 
@@ -64,7 +64,7 @@ namespace NavigationFramework.Editor
             {
                 Undo.RecordObject(graph, "Add Navigation Group");
                 graph.AddGroup(new NavigationGroup(Guid.NewGuid().ToString(), "New Group"));
-                EditorUtility.SetDirty(graph);
+                NavigationGraphAutoSaver.Touch(graph);
             }
         }
 
@@ -83,14 +83,14 @@ namespace NavigationFramework.Editor
                 {
                     Undo.RecordObject(graph, "Rename Navigation Page");
                     page.SetDisplayName(name);
-                    EditorUtility.SetDirty(graph);
+                    NavigationGraphAutoSaver.Touch(graph);
                 }
 
                 if (GUILayout.Button("Remove", GUILayout.Width(60)))
                 {
                     Undo.RecordObject(graph, "Remove Navigation Page");
                     graph.RemovePage(page);
-                    EditorUtility.SetDirty(graph);
+                    NavigationGraphAutoSaver.Touch(graph);
                     GUIUtility.ExitGUI();
                 }
 
@@ -113,7 +113,7 @@ namespace NavigationFramework.Editor
                     Undo.RecordObject(graph, "Edit Navigation Page");
                     page.SetDefaultNode(selected == 0 ? null : nodes[selected - 1].Id);
                     page.SetEntryMode(entryMode);
-                    EditorUtility.SetDirty(graph);
+                    NavigationGraphAutoSaver.Touch(graph);
                 }
 
                 EditorGUILayout.EndVertical();
@@ -123,7 +123,7 @@ namespace NavigationFramework.Editor
             {
                 Undo.RecordObject(graph, "Add Navigation Page");
                 graph.AddPage(new NavigationPage(Guid.NewGuid().ToString(), "New Page"));
-                EditorUtility.SetDirty(graph);
+                NavigationGraphAutoSaver.Touch(graph);
             }
         }
     }

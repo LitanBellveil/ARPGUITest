@@ -1,5 +1,6 @@
 using UnityEditor;
 using UnityEditor.Callbacks;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -16,11 +17,12 @@ namespace NavigationFramework.Editor
     {
         [SerializeField] private NavigationGraph graph;
 
+        private bool lastKnownDirty;
+
         /// <summary> Opens (or refocuses) the graph window on <paramref name="target"/>. </summary>
         public static void Open(NavigationGraph target)
         {
             var window = GetWindow<NavigationGraphEditorWindow>();
-            window.titleContent = new GUIContent($"Navigation Graph — {target.name}");
             window.Load(target);
         }
 
@@ -44,14 +46,45 @@ namespace NavigationFramework.Editor
             }
         }
 
+        /// <summary> Keeps the title bar's dirty asterisk in sync with the graph's actual dirty state. </summary>
+        private void Update()
+        {
+            if (graph == null)
+            {
+                return;
+            }
+
+            bool dirty = EditorUtility.IsDirty(graph);
+
+            if (dirty != lastKnownDirty)
+            {
+                lastKnownDirty = dirty;
+                RefreshTitle();
+            }
+        }
+
+        private void RefreshTitle()
+        {
+            string suffix = lastKnownDirty ? " *" : string.Empty;
+            titleContent = new GUIContent($"Navigation Graph — {graph.name}{suffix}");
+        }
+
         private void Load(NavigationGraph target)
         {
             graph = target;
+            lastKnownDirty = EditorUtility.IsDirty(graph);
+            RefreshTitle();
             rootVisualElement.Clear();
+
+            var root = new VisualElement();
+            root.style.flexGrow = 1;
+            rootVisualElement.Add(root);
+
+            root.Add(BuildToolbar());
 
             var splitView = new TwoPaneSplitView(1, 260, TwoPaneSplitViewOrientation.Horizontal);
             splitView.style.flexGrow = 1;
-            rootVisualElement.Add(splitView);
+            root.Add(splitView);
 
             var graphView = new NavigationGraphView(graph);
             graphView.style.flexGrow = 1;
@@ -61,6 +94,20 @@ namespace NavigationFramework.Editor
             splitView.Add(inspectorPanel);
 
             graphView.SelectionUpdated += inspectorPanel.SetSelection;
+        }
+
+        private VisualElement BuildToolbar()
+        {
+            var toolbar = new Toolbar();
+
+            var saveButton = new ToolbarButton(() => NavigationGraphAutoSaver.SaveNow(graph)) { text = "Save Now" };
+            toolbar.Add(saveButton);
+
+            var autoSaveToggle = new ToolbarToggle { label = "Auto Save", value = NavigationGraphAutoSaver.AutoSaveEnabled };
+            autoSaveToggle.RegisterValueChangedCallback(evt => NavigationGraphAutoSaver.AutoSaveEnabled = evt.newValue);
+            toolbar.Add(autoSaveToggle);
+
+            return toolbar;
         }
     }
 }

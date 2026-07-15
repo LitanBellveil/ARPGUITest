@@ -53,6 +53,15 @@ responsibility + open/closed):
   requirement is satisfied for free for statically authored nodes: `NavigationManager.SetGraph()`
   (Phase 2) reads these already-resolved references directly into its cache — no scene search
   happens, ever, on `Move()`.
+- **Testing note: "Reload Scene" in Enter Play Mode Settings breaks these references.** A graph
+  asset's `RectTransform`/`Selectable` fields point at a specific in-memory instance of a scene
+  object. If `Edit > Project Settings > Editor > Enter Play Mode Settings` has "Reload Scene"
+  enabled (Unity's default), entering Play Mode reloads the scene from disk and replaces every
+  scene object with a fresh instance — the graph's field still shows the old object's name (stale
+  label) but no longer resolves to anything, and re-resolves fine again once you're back in Edit
+  Mode with the original (never-actually-replaced) instances. This is not fixed by saving the
+  scene; the fix is disabling "Reload Scene" for that project. Worth revisiting when Phase 5
+  (Generate From Scene) lands, since it will hit the exact same caveat.
 - **Dynamic content (ScrollView/Carousel/Skill Tree) needs a second path.** Nodes for content that
   doesn't exist until runtime (spawned inventory slots, a procedurally generated skill tree) can't
   have a baked scene reference. The reserved fix for this — explicit runtime registration through
@@ -161,3 +170,47 @@ A GraphView (UI Toolkit) based window for authoring `NavigationGraph` assets, al
   `UnityEditor.UIElements`.** Worth calling out since older GraphView tutorials (and this package's
   first draft) reference the pre-2021 namespace; Unity 6 has these types in the runtime UI Toolkit
   module since the control is no longer editor-exclusive.
+
+## Phase 4 — Graph Save/Load + Auto Save
+
+`NavigationGraphAutoSaver` (`Editor/NavigationGraphAutoSaver.cs`) replaces Phase 3's bare
+`EditorUtility.SetDirty` calls with a debounced save: `Touch(graph)` marks the graph dirty and
+(re)schedules a save 2 seconds out, so a burst of edits collapses into one disk write instead of
+one per keystroke/drag. All mutation sites in `NavigationGraphView`, `NavigationGraphInspectorPanel`,
+and `NavigationGraphEditor` now call `Touch` instead of `SetDirty` directly — including node drag
+(`GraphViewChange.movedElements`), which Phase 3 tracked in `NavigationNode.EditorPosition` but
+never actually marked dirty, so dragging a node to reposition it was silently never saved.
+
+| Member | Role |
+|---|---|
+| `NavigationGraphAutoSaver.Touch(graph)` | Marks dirty; if auto-save is on, debounce-schedules `AssetDatabase.SaveAssetIfDirty(graph)`. |
+| `NavigationGraphAutoSaver.SaveNow(graph)` | Immediate save, bypassing the debounce delay — wired to the window's "Save Now" toolbar button. |
+| `NavigationGraphAutoSaver.AutoSaveEnabled` | Per-user `EditorPrefs`-backed toggle, defaults to on, exposed as the "Auto Save" toolbar checkbox. |
+| `NavigationGraphEditorWindow` toolbar | "Save Now" button + "Auto Save" toggle, added above the split view. The window title also grows a trailing `*` while the graph is dirty (checked every `Update()` tick), mirroring Unity's own convention for unsaved scenes/assets. |
+
+### Design notes and deviations
+
+- **Auto-save is debounced, not instant.** Saving on every single edit (e.g. every frame while
+  dragging a node) would mean constant disk I/O and constant `AssetDatabase` refresh churn. A
+  2-second idle window after the *last* edit was chosen instead — arbitrary but conservative; there
+  is no config for this yet since no concrete need for a different value has come up.
+- **All pending auto-saves are force-flushed right before entering Play Mode**
+  (`EditorApplication.playModeStateChanged`, `PlayModeStateChange.ExitingEditMode`), regardless of
+  the debounce timer. This exists specifically because of a real bug hit during manual testing: a
+  graph asset holds direct references to scene objects, and if the project's
+  `Enter Play Mode Settings` has "Reload Scene" enabled (Unity's default), entering Play reloads the
+  scene and replaces every scene object with a fresh instance. That reload risk is orthogonal to
+  whether the *graph* itself was saved — flushing the graph doesn't fix a stale scene reference by
+  itself — but there is no reason to *also* risk losing an unsaved graph edit at the same moment, so
+  Phase 4 removes that variable.
+- **No "Load" step, because there isn't a custom serialization format to load from.** The graph is
+  a plain Unity `ScriptableObject` asset — Unity's own `AssetDatabase`/import pipeline already *is*
+  the load path (opening the asset, or Unity loading it as a dependency, deserializes it the normal
+  way). "Graph Save/Load" in the phase name turned out to mean "make sure edits reliably reach
+  disk," not "build a bespoke load routine" — there was nothing else Phase 1's `ScriptableObject`
+  choice left to build here.
+- **The dirty asterisk polls `EditorUtility.IsDirty` once per `Update()` tick rather than reacting
+  to a change event.** GraphView/IMGUI mutations don't raise a single common "graph changed" event
+  to hook into (they go through several different code paths — GraphView callbacks, IMGUI change
+  checks), so polling a cheap boolean each tick was simpler than wiring a bespoke event through every
+  mutation site just to avoid a poll.

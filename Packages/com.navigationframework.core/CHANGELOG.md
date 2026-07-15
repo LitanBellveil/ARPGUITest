@@ -20,6 +20,15 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   `NavigationGroup.SetDisplayName`/`SetEnabledByDefault`, `NavigationPage.SetDisplayName`/
   `SetDefaultNode`/`SetEntryMode`). Persistence is Unity's normal dirty/save cycle for now — an
   explicit save/auto-save flow is Phase 4.
+- Phase 4: graph save/load + auto save — `NavigationGraphAutoSaver` debounce-saves a
+  `NavigationGraph` 2 seconds after its last edit (`AssetDatabase.SaveAssetIfDirty`), replacing
+  Phase 3's bare `SetDirty` calls everywhere (including node drag, which Phase 3 tracked in
+  `EditorPosition` but never actually marked dirty). Forces an immediate flush of any pending saves
+  right before entering Play Mode. Adds a "Save Now" button and "Auto Save" toggle to the graph
+  window's toolbar, plus a dirty `*` in the window title.
+- A testing note on `Enter Play Mode Settings` → "Reload Scene" breaking a graph's scene references
+  under Play, found during manual smoke-testing of Phases 1-3; documented in
+  `Documentation~/index.md` since Phase 5 will hit the same caveat.
 
 ## [0.1.0] - 2026-07-10
 
