@@ -336,3 +336,49 @@ one file.
 - **`NavigationTestDriver.cs` is superseded, not replaced in place.** It stays as-is until a
   `Samples~` keyboard input source exists to replace it, per its own "delete this once samples land"
   note from Phase 1-3 manual testing.
+
+## Phase 7 — Samples
+
+Nine samples under `Samples~`, each with its own `README.md` covering exact Editor build steps
+(scene hierarchy, Graph Window setup, Inspector wiring) — the actual UI layout for each isn't
+checked in as hand-authored `.unity`/`.prefab` YAML, only the C# and instructions are.
+
+| Sample | Demonstrates | Controller |
+|---|---|---|
+| Character | Framework wiring only — the floor for how little code a static menu needs. | none |
+| Weapon | A second, persistent piece of state ("equipped") distinct from transient focus. | `WeaponListController` |
+| Inventory | `RegisterDynamicNode`/`UnregisterDynamicNode` for runtime-spawned content; manual grid adjacency since Auto Connect can't see nodes that don't exist yet at edit time. | `InventoryController` |
+| Setting | `NavigationPage`/`SwitchToPage` tabs, each backed by its own content Group so a hidden tab is never reachable by arrow keys. | `PageTabController` |
+| Popup | Group-toggling focus takeover with return-to-caller on close. | `PopupController` |
+| Dialog | The same takeover pattern, contrasted with per-widget `Cancelled` subscriptions (practical here since there are only two buttons). | `DialogController` |
+| Carousel | Wraparound layered on top of `Move()` via one extra connection pair — the graph can't tell a wrapped carousel from an ordinary row that loops. | `CarouselController` |
+| ScrollView | `NodeChanged` used to keep focus visible inside a `ScrollRect` — a UI concern the framework doesn't own. | `ScrollFocusIntoView` |
+| Skill Tree | A generated, non-grid layout; `NavigationConnection.priority` ranks multiple children sharing one direction. | `SkillTreeController` |
+
+`Samples~/Common/` holds two scripts shared by all nine: `KeyboardInputSource` (the reference
+`INavigationInputSource`) and `NavigationFocusVisual` (tints a `Graphic` based on
+`NavigationSelectable.Selected`/`Deselected`).
+
+### Design notes and deviations
+
+- **`NavigationPage`/`NavigationGroup` are looked up by `DisplayName`, not `Id`, throughout the
+  samples that need one (Setting, Popup, Dialog).** Both types only expose their GUID `Id` at
+  runtime, and the current Graph Window UI (Phase 3's `NavigationGraphEditor`) has no field that
+  displays a page or group's `Id` for copying into a component's Inspector array. Matching by
+  display name sidesteps that gap without touching Editor code that's out of Phase 7's scope; a
+  real project revisiting this should probably add an Id label to the Groups/Pages Inspector
+  section instead.
+- **Popup vs. Dialog use two different patterns for "the popup/dialog should close now" because
+  their widget counts are different.** `NavigationSelectable.Cancelled` only fires on whichever
+  node happens to be focused when Cancel is invoked — for Dialog's two buttons, subscribing to both
+  individually is simple and exhaustive. Popup can have arbitrarily many controls, so subscribing to
+  every one's `Cancelled` doesn't scale; instead `PopupController` listens directly to the same
+  `INavigationInputSource.CancelPressed` event a `NavigationInputRouter` already forwards to
+  `Manager.Cancel()`. Both fire from the same key press, which is harmless for a sample but worth
+  knowing if a real project wants Popup's Cancel-anywhere behavior without also invoking whatever
+  the focused widget's own `Cancelled` handler does.
+- **Inventory and Carousel wire their dynamic nodes' connections by hand (row/grid math), not Auto
+  Connect.** `NavigationAutoConnector.AutoConnect` (Phase 6) only reads `NavigationGraph.Nodes` —
+  nodes registered via `RegisterDynamicNode` are tracked solely in the manager's runtime dictionary
+  and never added to the graph asset (by design, so the graph stays read-only in Play Mode), so Auto
+  Connect has nothing to see for them regardless of when it runs.

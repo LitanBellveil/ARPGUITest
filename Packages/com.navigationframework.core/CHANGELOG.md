@@ -48,6 +48,20 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   sample would otherwise duplicate, and forwards one assigned `INavigationInputSource`'s events into
   `Move`/`Submit`/`Cancel`. Concrete input sources (keyboard, gamepad, touch) are expected to live in
   `Samples~`, not Runtime, so swapping input backends never touches the framework itself.
+- Phase 7: samples — nine self-contained samples under `Samples~`, registered in `package.json`'s
+  `samples` array: Character and Weapon (static/list content, framework wiring only, plus
+  `WeaponListController` for a persistent "equipped" state distinct from transient focus),
+  Inventory and Carousel (`RegisterDynamicNode`/`UnregisterDynamicNode` for runtime-spawned
+  content; Carousel layers wraparound on top of `Move()` with one extra connection pair, no
+  framework changes), Setting (`NavigationPage`/`SwitchToPage` tabs backed by per-tab Groups),
+  Popup and Dialog (Group-toggling focus takeover; Popup listens to the input source directly for a
+  reliable "close" signal since Cancel alone only fires on whichever widget happens to be focused,
+  Dialog subscribes each button's own `Cancelled` instead since it only has two), ScrollView
+  (`ScrollFocusIntoView` keeps the focused node visible in a `ScrollRect` on `NodeChanged` — the
+  framework has no scrolling concept of its own), and Skill Tree (a generated, non-grid tree using
+  `NavigationConnection.priority` to rank multiple children per direction). `Samples~/Common/`
+  holds `KeyboardInputSource` (the reference `INavigationInputSource`, superseding
+  `NavigationTestDriver`) and `NavigationFocusVisual` (shared focused-widget tint).
 
 ## [0.1.0] - 2026-07-10
 

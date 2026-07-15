@@ -15,5 +15,51 @@
   "author": {
     "name": "ARPGUITest"
   },
-  "samples": []
+  "samples": [
+    {
+      "displayName": "Character",
+      "description": "Static equip-slot style menu — the simplest possible use case, framework wiring only.",
+      "path": "Samples~/Character"
+    },
+    {
+      "displayName": "Weapon",
+      "description": "Selection list/grid over a fixed set of authored items.",
+      "path": "Samples~/Weapon"
+    },
+    {
+      "displayName": "Inventory",
+      "description": "Runtime-spawned item grid using RegisterDynamicNode/UnregisterDynamicNode.",
+      "path": "Samples~/Inventory"
+    },
+    {
+      "displayName": "Setting",
+      "description": "Tabbed settings screen using NavigationPage and SwitchToPage.",
+      "path": "Samples~/Setting"
+    },
+    {
+      "displayName": "Popup",
+      "description": "Inactive-by-default popup that takes over navigation focus and restores it on close.",
+      "path": "Samples~/Popup"
+    },
+    {
+      "displayName": "Dialog",
+      "description": "Confirm/cancel dialog exercising Submit/Cancel directly.",
+      "path": "Samples~/Dialog"
+    },
+    {
+      "displayName": "Carousel",
+      "description": "Runtime-spawned carousel items with wraparound paging layered on top of Move().",
+      "path": "Samples~/Carousel"
+    },
+    {
+      "displayName": "ScrollView",
+      "description": "Auto-scrolls a ScrollRect to keep the focused node visible on NodeChanged.",
+      "path": "Samples~/ScrollView"
+    },
+    {
+      "displayName": "Skill Tree",
+      "description": "Dynamically generated nodes with custom (non-grid) connections.",
+      "path": "Samples~/SkillTree"
+    }
+  ]
 }
