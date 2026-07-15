@@ -64,3 +64,55 @@ responsibility + open/closed):
   Select/Deselect/Submit/Cancel are plain public methods invoked by `NavigationManager`, not
   `EventSystem` messages — this keeps the framework the sole owner of "what is currently focused",
   rather than sharing that state with Unity's built-in (and mouse/EventSystem-centric) selection system.
+
+## Phase 2 — Runtime Navigation
+
+`NavigationManager` (`Runtime/Navigation/NavigationManager.cs`) is the runtime driver: it loads a
+`NavigationGraph`, tracks the currently focused node, and exposes exactly the three input-agnostic
+verbs described in the Goal section.
+
+| Member | Role |
+|---|---|
+| `SetGraph(graph)` | Loads a graph and rebuilds the node/group lookup caches from its already-resolved scene references. No scene search, ever — see the Phase 1 note on scene references. Does not select anything by itself. |
+| `SelectDefault()` | Selects the graph's node flagged `IsDefault`. |
+| `SwitchToPage(pageId)` | Activates a page and applies its `PageEntryMode` — `SelectDefaultNode` always focuses the page's default node; `RestoreLastSelected` focuses whichever node was last selected while that page was active, per-page, falling back to the default node the first time (or if that node is no longer selectable). |
+| `SelectNode(nodeId)` | Direct selection, bypassing directional movement. Returns `false` if the node is missing, disabled, or in a disabled group. |
+| `Move(Direction)` | Among the current node's connections facing that direction, picks the highest-`Priority` one that is enabled and resolves to a currently selectable node; ties keep declaration order. No-op if there is no current node or no valid candidate — Phase 2 does not wrap around. |
+| `Submit()` / `Cancel()` | Invoke the corresponding method on the current node's `NavigationSelectable`, if any. |
+| `SetGroupEnabled(groupId, enabled)` | Batch-toggles every node in a group without touching each node's own `IsEnabled` flag. If the group containing the current node is disabled, focus is cleared and the caller is expected to reselect. |
+| `RegisterDynamicNode(...)` / `UnregisterDynamicNode(id)` | The runtime registration path for spawned content (inventory slots, carousel items, skill tree nodes) promised in Phase 1. |
+
+### Design notes and deviations
+
+- **`NavigationManager` is a plain C# class, not a MonoBehaviour.** It has no `Update()` of its
+  own — it does nothing until a caller invokes `Move`/`Submit`/`Cancel`. This keeps "when
+  navigation happens" entirely outside the framework (a `MonoBehaviour` with its own update loop
+  would tempt polling Input System state internally, which is exactly the coupling the framework
+  is meant to avoid) and makes the manager trivially constructible in edit-mode tests without a
+  scene.
+- **Dynamic nodes never touch the `NavigationGraph` asset.** `RegisterDynamicNode` creates a
+  `NavigationNode` with a fresh GUID and tracks it only in the manager's own lookup dictionary —
+  it is never passed to `graph.AddNode`. This honors the Phase 1 promise that the graph "is
+  read-only at runtime; all mutators are for editor tooling." Wiring a dynamic node into the rest
+  of the graph (or between two dynamic nodes) is done with `NavigationNode.AddConnection` directly
+  on the node instances. Auto Connect (Phase 6) is expected to be the thing that normally calls
+  this for geometry-based edges — Phase 2 only provides the registration/connection primitives it
+  will need.
+- **Group enable/disable is manager-owned state, not part of `NavigationGroup`.** A node is
+  selectable only if both its own `IsEnabled` flag and its group's *runtime* enabled state (tracked
+  in `NavigationManager`, seeded from `NavigationGroup.EnabledByDefault`) are true. Keeping this off
+  the data class matches the existing split between authored data (`NavigationGraph`/`NavigationGroup`)
+  and runtime state (`NavigationManager`) — the same reasoning already used for why `NavigationNode`
+  itself caches no runtime state. The group's runtime-enabled state and `NavigationNode.IsEnabled`
+  are two independent switches: the group one is for batch/gameplay toggles (a whole Locked Skill
+  group), the node one is for one-off cases (a single locked item), and either being off makes a
+  node unselectable.
+- **Page switching is a separate call from node selection.** `SelectNode` and `Move` do not
+  implicitly change `CurrentPage` — only `SwitchToPage` does, and only it consults per-page
+  "last selected" memory. Plain node selection (e.g. `SelectDefault`) is a lower-level operation
+  than page/tab management and intentionally does not carry page bookkeeping.
+- **No wraparound and no auto-recovery on `Move`.** If there is no connection in the requested
+  direction (or the only candidates are currently unselectable), `Move` simply does nothing. Adding
+  wraparound or "nearest selectable" fallback was judged premature without a concrete sample asking
+  for it — flagging here in case a specific screen (e.g. a Carousel) needs it, which would be
+  handled in that sample rather than in the core manager.
