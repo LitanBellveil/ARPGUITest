@@ -79,6 +79,14 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - The Graph Window highlights whichever node is the live `NavigationManager.CurrentNode` during
   Play Mode (a green border), by polling for a running `NavigationInputRouter` whose `Manager.Graph`
   matches the open graph. Debugging aid only — has no effect on the authored graph data.
+- `NavigationGeometryConnector` (`Runtime/Navigation/`): the nearest-neighbor connection algorithm
+  extracted out of the Editor's `NavigationAutoConnector` into a Runtime-callable utility, so
+  dynamically spawned content (e.g. a runtime-growable inventory list) can connect itself from
+  actual post-layout `RectTransform` geometry — whatever a `LayoutGroup` produces — instead of
+  hardcoding row/column math. `NavigationAutoConnector` now calls this once per (Group, Page) bucket
+  rather than duplicating the algorithm. The Inventory sample's `InventoryController` was updated to
+  use it (`initialItemCount` replaces the old `itemCount`/`columns` fields; adds a public `AddItem`
+  demonstrating runtime growth).
 
 ## [0.1.0] - 2026-07-10
 
