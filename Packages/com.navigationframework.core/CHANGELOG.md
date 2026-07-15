@@ -29,6 +29,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - A testing note on `Enter Play Mode Settings` → "Reload Scene" breaking a graph's scene references
   under Play, found during manual smoke-testing of Phases 1-3; documented in
   `Documentation~/index.md` since Phase 5 will hit the same caveat.
+- Phase 5: generate from scene — `NavigationSceneGenerator` scans a chosen `Transform` (inactive
+  children included) for `NavigationSelectable` components and creates/updates matching
+  `NavigationNode`s in a `NavigationGraph`, wired into `NavigationGraphEditor`'s Inspector via a new
+  `NavigationGraph.GenerateFromSceneRoot` field. Matching is by `Selectable` reference; the pass is
+  purely additive — it never overwrites a matched node's name/group/page/connections/position, and
+  never removes nodes for selectables no longer found.
 
 ## [0.1.0] - 2026-07-10
 

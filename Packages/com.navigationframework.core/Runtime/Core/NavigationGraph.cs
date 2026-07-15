@@ -16,6 +16,7 @@ namespace NavigationFramework
         [SerializeField] private List<NavigationNode> nodes = new List<NavigationNode>();
         [SerializeField] private List<NavigationGroup> groups = new List<NavigationGroup>();
         [SerializeField] private List<NavigationPage> pages = new List<NavigationPage>();
+        [SerializeField] private Transform generateFromSceneRoot;
 
         /// <summary> All nodes authored in this graph. </summary>
         public IReadOnlyList<NavigationNode> Nodes => nodes;
@@ -25,6 +26,14 @@ namespace NavigationFramework
 
         /// <summary> All pages authored in this graph. </summary>
         public IReadOnlyList<NavigationPage> Pages => pages;
+
+        /// <summary>
+        /// Editor-only: the scene root last used by "Generate From Scene" (Phase 5). Has no effect
+        /// on runtime behaviour — a convenience so the Inspector remembers where to scan without
+        /// re-dragging it every time the UI changes, the same rationale as
+        /// <see cref="NavigationNode.EditorPosition"/>.
+        /// </summary>
+        public Transform GenerateFromSceneRoot => generateFromSceneRoot;
 
         /// <summary> Finds a node by its GUID, or null if no node in this graph has that id. </summary>
         public NavigationNode FindNode(string nodeId)
@@ -100,5 +109,8 @@ namespace NavigationFramework
 
         /// <summary> Removes a page from the graph. Intended for use by the graph editor, not gameplay code. </summary>
         public bool RemovePage(NavigationPage page) => pages.Remove(page);
+
+        /// <summary> Sets the scan root remembered for "Generate From Scene". Intended for use by the graph editor. </summary>
+        public void SetGenerateFromSceneRoot(Transform root) => generateFromSceneRoot = root;
     }
 }

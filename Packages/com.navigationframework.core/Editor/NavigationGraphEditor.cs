@@ -6,11 +6,11 @@ using UnityEngine;
 namespace NavigationFramework.Editor
 {
     /// <summary>
-    /// Adds an "Open Graph Window" button and Group/Page management (add/rename/remove) to the
-    /// default Inspector for <see cref="NavigationGraph"/>. Node and connection editing lives
-    /// entirely in <see cref="NavigationGraphEditorWindow"/> — groups and pages are edited here
-    /// instead, since they are graph-wide metadata rather than something naturally represented as
-    /// a GraphView node or edge.
+    /// Adds an "Open Graph Window" button, "Generate From Scene" (Phase 5), and Group/Page
+    /// management (add/rename/remove) to the default Inspector for <see cref="NavigationGraph"/>.
+    /// Node and connection editing lives entirely in <see cref="NavigationGraphEditorWindow"/> —
+    /// groups, pages, and scene generation are edited here instead, since they are graph-wide
+    /// actions/metadata rather than something naturally represented as a GraphView node or edge.
     /// </summary>
     [CustomEditor(typeof(NavigationGraph))]
     public sealed class NavigationGraphEditor : UnityEditor.Editor
@@ -25,9 +25,33 @@ namespace NavigationFramework.Editor
             }
 
             EditorGUILayout.Space();
+            DrawGenerateFromScene(graph);
+            EditorGUILayout.Space();
             DrawGroups(graph);
             EditorGUILayout.Space();
             DrawPages(graph);
+        }
+
+        private void DrawGenerateFromScene(NavigationGraph graph)
+        {
+            EditorGUILayout.LabelField("Generate From Scene", EditorStyles.boldLabel);
+
+            EditorGUI.BeginChangeCheck();
+            var scanRoot = (Transform)EditorGUILayout.ObjectField("Scan Root", graph.GenerateFromSceneRoot, typeof(Transform), true);
+            if (EditorGUI.EndChangeCheck())
+            {
+                Undo.RecordObject(graph, "Set Generate From Scene Root");
+                graph.SetGenerateFromSceneRoot(scanRoot);
+                NavigationGraphAutoSaver.Touch(graph);
+            }
+
+            using (new EditorGUI.DisabledScope(scanRoot == null))
+            {
+                if (GUILayout.Button("Generate From Scene"))
+                {
+                    NavigationSceneGenerator.GenerateFromScene(graph, scanRoot);
+                }
+            }
         }
 
         private void DrawGroups(NavigationGraph graph)

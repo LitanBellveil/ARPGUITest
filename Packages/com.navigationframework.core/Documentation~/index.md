@@ -214,3 +214,43 @@ never actually marked dirty, so dragging a node to reposition it was silently ne
   to hook into (they go through several different code paths — GraphView callbacks, IMGUI change
   checks), so polling a cheap boolean each tick was simpler than wiring a bespoke event through every
   mutation site just to avoid a poll.
+
+## Phase 5 — Generate From Scene
+
+`NavigationSceneGenerator` (`Editor/NavigationSceneGenerator.cs`), wired into `NavigationGraphEditor`
+alongside a new "Scan Root" field on `NavigationGraph`. Scans a chosen `Transform` (inactive children
+included) for `NavigationSelectable` components and creates/updates matching `NavigationNode`
+entries.
+
+| Member | Role |
+|---|---|
+| `NavigationGraph.GenerateFromSceneRoot` / `SetGenerateFromSceneRoot` | The scene root remembered per-graph so the Inspector doesn't need it re-dragged every run. Editor-only, no runtime effect — same rationale as `NavigationNode.EditorPosition`. |
+| `NavigationSceneGenerator.GenerateFromScene(graph, scanRoot)` | `scanRoot.GetComponentsInChildren<NavigationSelectable>(true)`, matched against existing nodes by their `Selectable` reference. New selectables get a new `NavigationNode` (display name = GameObject name, `EditorPosition` derived from `anchoredPosition`); already-matched nodes only get their scene references refreshed. |
+| `NavigationGraphEditor` "Generate From Scene" section | The "Scan Root" object field + "Generate From Scene" button (disabled with no root set), placed above Groups/Pages in the Inspector. |
+
+### Design notes and deviations
+
+- **Additive and non-destructive by design: matching is by `Selectable` reference, and nothing is
+  ever deleted.** Re-running this after the UI has grown only adds nodes for newly-added
+  `NavigationSelectable`s and refreshes scene references on ones already tracked — it never
+  overwrites a node's display name, group/page assignment, connections, or `EditorPosition`, and
+  never removes a node whose selectable can no longer be found. The alternative (diffing and
+  pruning orphaned nodes automatically) risked silently deleting hand-wired connections the moment
+  a button was temporarily disabled or renamed during iteration; deleting a node is left to the
+  Graph Window, where it's a deliberate, visible action.
+- **Inactive GameObjects are included in the scan** (`GetComponentsInChildren<NavigationSelectable>(true)`).
+  Popups/Dialogs are routinely authored inactive-by-default and only activated at runtime, so
+  scanning only active objects would silently skip exactly the screens most likely to need this.
+- **The scan root is a single `Transform`, not "the whole scene."** Sweeping the entire open scene
+  with `FindObjectsByType<NavigationSelectable>` would mix unrelated panels' selectables into
+  whichever graph happened to be selected — most projects will have one `NavigationGraph` per screen
+  (Character/Weapon/Inventory/etc., per the framework's stated goal), so scanning is scoped to
+  whatever root the user points at (typically that screen's root Canvas or panel).
+- **`anchoredPosition` is Y-flipped when converted to `EditorPosition`.** uGUI's `anchoredPosition`
+  is Y-up; the Graph Window's canvas (like most UI Toolkit/screen-space layouts) is Y-down. Copying
+  the value directly would make the generated graph look vertically mirrored from the actual UI, so
+  the Y sign is flipped to keep "up" in the Graph Window match "up" on screen.
+- **No cleanup pass for orphaned nodes.** Deliberately left out of this phase — see the
+  "non-destructive by design" note above. If a concrete need for an assisted cleanup step comes up
+  later, it should be a separate, explicit action in the Graph Window (so removals stay visible and
+  reviewable) rather than an implicit side effect of generation.
