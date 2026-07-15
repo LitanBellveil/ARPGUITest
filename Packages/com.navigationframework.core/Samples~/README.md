@@ -20,3 +20,10 @@ implementation next to it and assigning that instead — no framework code chang
 Each sample folder below has its own `README.md` with exact Editor build steps (scene hierarchy,
 which components to add, what to wire in the Inspector) since the visual layout itself isn't
 something checked into source as hand-written YAML.
+
+`Common/NavigationFocusVisual.cs` and `Common/NavigationSelectableTransitionBridge.cs` are two
+alternative ways to show focus — add one or the other to a widget, not both. `NavigationFocusVisual`
+tints a `Graphic` directly, no `Selectable` Transition setup required. `NavigationSelectableTransitionBridge`
+instead drives the widget's own already-configured `Selectable` Transition (ColorTint, SpriteSwap,
+or Animation) via `Selectable.OnSelect`/`OnDeselect` — useful when retrofitting this framework onto
+an existing UI that already has Transitions set up in the Inspector and shouldn't need rewriting.
