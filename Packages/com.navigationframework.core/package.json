@@ -17,6 +17,11 @@
   },
   "samples": [
     {
+      "displayName": "Common",
+      "description": "Shared scripts every other sample depends on (KeyboardInputSource, NavigationFocusVisual). Import this first.",
+      "path": "Samples~/Common"
+    },
+    {
       "displayName": "Character",
       "description": "Static equip-slot style menu — the simplest possible use case, framework wiring only.",
       "path": "Samples~/Character"
