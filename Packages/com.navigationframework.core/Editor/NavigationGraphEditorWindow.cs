@@ -18,6 +18,8 @@ namespace NavigationFramework.Editor
         [SerializeField] private NavigationGraph graph;
 
         private bool lastKnownDirty;
+        private NavigationGraphView graphView;
+        private string lastKnownLiveFocusedNodeId;
 
         /// <summary> Opens (or refocuses) the graph window on <paramref name="target"/>. </summary>
         public static void Open(NavigationGraph target)
@@ -63,7 +65,12 @@ namespace NavigationFramework.Editor
             }
         }
 
-        /// <summary> Keeps the title bar's dirty asterisk in sync with the graph's actual dirty state. </summary>
+        /// <summary>
+        /// Keeps the title bar's dirty asterisk in sync with the graph's actual dirty state, and
+        /// during Play Mode, keeps the live-focused node highlight (<see cref="NavigationGraphView.SetLiveFocusedNode"/>)
+        /// in sync with whichever running <see cref="NavigationInputRouter"/>'s <c>Manager.Graph</c>
+        /// matches this window's graph.
+        /// </summary>
         private void Update()
         {
             if (graph == null)
@@ -77,6 +84,36 @@ namespace NavigationFramework.Editor
             {
                 lastKnownDirty = dirty;
                 RefreshTitle();
+            }
+
+            UpdateLiveFocusHighlight();
+        }
+
+        private void UpdateLiveFocusHighlight()
+        {
+            if (graphView == null)
+            {
+                return;
+            }
+
+            string focusedNodeId = null;
+
+            if (EditorApplication.isPlaying)
+            {
+                foreach (NavigationInputRouter router in FindObjectsByType<NavigationInputRouter>(FindObjectsSortMode.None))
+                {
+                    if (router.Manager.Graph == graph)
+                    {
+                        focusedNodeId = router.Manager.CurrentNode?.Id;
+                        break;
+                    }
+                }
+            }
+
+            if (focusedNodeId != lastKnownLiveFocusedNodeId)
+            {
+                lastKnownLiveFocusedNodeId = focusedNodeId;
+                graphView.SetLiveFocusedNode(focusedNodeId);
             }
         }
 
@@ -103,9 +140,10 @@ namespace NavigationFramework.Editor
             splitView.style.flexGrow = 1;
             root.Add(splitView);
 
-            var graphView = new NavigationGraphView(graph);
+            graphView = new NavigationGraphView(graph);
             graphView.style.flexGrow = 1;
             splitView.Add(graphView);
+            lastKnownLiveFocusedNodeId = null;
 
             var inspectorPanel = new NavigationGraphInspectorPanel(graph);
             splitView.Add(inspectorPanel);

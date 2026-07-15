@@ -26,6 +26,7 @@ namespace NavigationFramework.Editor
         public event Action<IReadOnlyList<ISelectable>> SelectionUpdated;
 
         private readonly Dictionary<string, NavigationNodeView> nodeViewsById = new Dictionary<string, NavigationNodeView>();
+        private NavigationNodeView liveFocusedView;
 
         public NavigationGraphView(NavigationGraph graph)
         {
@@ -127,6 +128,28 @@ namespace NavigationFramework.Editor
             }
 
             base.BuildContextualMenu(evt);
+        }
+
+        /// <summary>
+        /// Highlights the node view matching <paramref name="nodeId"/> as the live
+        /// <c>NavigationManager.CurrentNode</c> during Play Mode, clearing any previous highlight
+        /// first. Pass null to just clear (e.g. when Play Mode stops or no matching manager is
+        /// found). Driven by <see cref="NavigationGraphEditorWindow"/>'s polling — this view has no
+        /// Play Mode awareness of its own.
+        /// </summary>
+        public void SetLiveFocusedNode(string nodeId)
+        {
+            if (liveFocusedView != null)
+            {
+                liveFocusedView.SetLiveFocused(false);
+                liveFocusedView = null;
+            }
+
+            if (nodeId != null && nodeViewsById.TryGetValue(nodeId, out NavigationNodeView view))
+            {
+                view.SetLiveFocused(true);
+                liveFocusedView = view;
+            }
         }
 
         /// <summary> Adds a new node to the graph and its view, positioned at <paramref name="position"/>. </summary>

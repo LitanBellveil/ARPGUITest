@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.UIElements;
 using PortDirection = UnityEditor.Experimental.GraphView.Direction;
 using NavDirection = NavigationFramework.Direction;
 
@@ -23,6 +24,9 @@ namespace NavigationFramework.Editor
 
         /// <summary> The four directional output ports, keyed by the direction they represent. </summary>
         public IReadOnlyDictionary<NavDirection, Port> OutputPorts => outputPorts;
+
+        private static readonly Color LiveFocusBorderColor = new Color(0.2f, 1f, 0.4f);
+        private const float LiveFocusBorderWidth = 3f;
 
         private readonly Dictionary<NavDirection, Port> outputPorts = new Dictionary<NavDirection, Port>();
 
@@ -59,6 +63,37 @@ namespace NavigationFramework.Editor
         {
             base.SetPosition(newPos);
             Node.SetEditorPosition(newPos.position);
+        }
+
+        /// <summary>
+        /// Toggles a border highlight marking this node as the live <c>NavigationManager.CurrentNode</c>
+        /// in a running Play Mode session — see <see cref="NavigationGraphView.SetLiveFocusedNode"/>.
+        /// Purely a debugging aid; has no effect on the authored graph data.
+        /// </summary>
+        public void SetLiveFocused(bool focused)
+        {
+            if (focused)
+            {
+                style.borderTopWidth = LiveFocusBorderWidth;
+                style.borderBottomWidth = LiveFocusBorderWidth;
+                style.borderLeftWidth = LiveFocusBorderWidth;
+                style.borderRightWidth = LiveFocusBorderWidth;
+                style.borderTopColor = LiveFocusBorderColor;
+                style.borderBottomColor = LiveFocusBorderColor;
+                style.borderLeftColor = LiveFocusBorderColor;
+                style.borderRightColor = LiveFocusBorderColor;
+            }
+            else
+            {
+                style.borderTopWidth = StyleKeyword.Null;
+                style.borderBottomWidth = StyleKeyword.Null;
+                style.borderLeftWidth = StyleKeyword.Null;
+                style.borderRightWidth = StyleKeyword.Null;
+                style.borderTopColor = StyleKeyword.Null;
+                style.borderBottomColor = StyleKeyword.Null;
+                style.borderLeftColor = StyleKeyword.Null;
+                style.borderRightColor = StyleKeyword.Null;
+            }
         }
     }
 }

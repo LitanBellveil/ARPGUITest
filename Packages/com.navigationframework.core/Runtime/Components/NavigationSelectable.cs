@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace NavigationFramework
 {
@@ -54,18 +55,49 @@ namespace NavigationFramework
         /// <summary> This widget's RectTransform, cached at edit time so runtime code never needs GetComponent. </summary>
         public RectTransform RectTransform => rectTransform;
 
-        /// <summary> Auto-fills <see cref="RectTransform"/> from the object this component is added to. </summary>
+        /// <summary>
+        /// Auto-fills <see cref="RectTransform"/> from the object this component is added to, and
+        /// turns off Unity's own <see cref="Selectable.navigation"/> (Button/Toggle/etc.'s built-in
+        /// Automatic/Explicit arrow-key handling) if present, since it drives the same widget's
+        /// EventSystem-based Selected/Highlighted state — and therefore the same
+        /// <c>Target Graphic</c> color — independently of and in conflict with this framework.
+        /// </summary>
         protected virtual void Reset()
         {
             rectTransform = transform as RectTransform;
+
+            var unitySelectable = GetComponent<Selectable>();
+
+            if (unitySelectable != null)
+            {
+                Navigation navigation = unitySelectable.navigation;
+                navigation.mode = Navigation.Mode.None;
+                unitySelectable.navigation = navigation;
+            }
         }
 
-        /// <summary> Keeps <see cref="RectTransform"/> populated if it was left empty. </summary>
+        /// <summary>
+        /// Keeps <see cref="RectTransform"/> populated if it was left empty, and keeps Unity's own
+        /// <see cref="Selectable.navigation"/> forced off — unlike <see cref="Reset"/> (which only
+        /// runs once, when the component is first added), this re-asserts the invariant on every
+        /// Inspector change and script recompile, so a widget added before this fix existed (or one
+        /// where <c>Navigation</c> got flipped back on by hand) self-corrects instead of silently
+        /// fighting this framework for the same Graphic's color.
+        /// </summary>
         protected virtual void OnValidate()
         {
             if (rectTransform == null)
             {
                 rectTransform = transform as RectTransform;
+            }
+
+            var unitySelectable = GetComponent<Selectable>();
+
+            if (unitySelectable != null && unitySelectable.navigation.mode != Navigation.Mode.None)
+            {
+                Navigation navigation = unitySelectable.navigation;
+                navigation.mode = Navigation.Mode.None;
+                unitySelectable.navigation = navigation;
             }
         }
 

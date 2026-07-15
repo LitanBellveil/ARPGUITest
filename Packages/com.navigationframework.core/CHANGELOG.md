@@ -63,6 +63,23 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   holds `KeyboardInputSource` (the reference `INavigationInputSource`, superseding
   `NavigationTestDriver`) and `NavigationFocusVisual` (shared focused-widget tint).
 
+### Fixed
+
+- `NavigationSelectable.Reset`/`OnValidate` now force the same GameObject's Unity `Selectable`
+  (Button/Toggle/etc.), if present, to `Navigation.Mode.None`. Left at Unity's default (Automatic),
+  its own EventSystem-driven Selected/Highlighted state — and therefore its own ColorTint on the
+  same `Target Graphic` — fights with this framework for the same widget, since both respond to
+  arrow keys independently. Found while building the Character sample: focus appeared to require a
+  manual click before arrow keys worked, and `NavigationFocusVisual`'s tint appeared to do nothing,
+  both because Unity's own navigation was active in parallel. `OnValidate` re-asserts this on every
+  Inspector change/recompile so widgets added before this fix self-correct.
+
+### Added
+
+- The Graph Window highlights whichever node is the live `NavigationManager.CurrentNode` during
+  Play Mode (a green border), by polling for a running `NavigationInputRouter` whose `Manager.Graph`
+  matches the open graph. Debugging aid only — has no effect on the authored graph data.
+
 ## [0.1.0] - 2026-07-10
 
 ### Added

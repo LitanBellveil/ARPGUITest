@@ -382,3 +382,21 @@ checked in as hand-authored `.unity`/`.prefab` YAML, only the C# and instruction
   nodes registered via `RegisterDynamicNode` are tracked solely in the manager's runtime dictionary
   and never added to the graph asset (by design, so the graph stays read-only in Play Mode), so Auto
   Connect has nothing to see for them regardless of when it runs.
+
+### Post-Phase-7 fixes (found building the Character sample)
+
+- **`NavigationSelectable` now forces the same GameObject's Unity `Selectable.navigation` to
+  `None`.** Left at Unity's default (Automatic), a Button's own EventSystem-driven navigation reacts
+  to the same arrow keys as this framework and drives the same `Target Graphic`'s color via its own
+  Selected/Highlighted state — two independent systems fighting over one widget. This is exactly
+  the coupling `NavigationSelectable`'s class doc already disclaimed ("never relies on Unity's
+  EventSystem selection state"), but nothing enforced it structurally until now. Enforced in both
+  `Reset` (new widgets) and `OnValidate` (existing ones, so it self-corrects on next Inspector touch
+  or recompile without manual fixing per widget).
+- **The Graph Window highlights the live `NavigationManager.CurrentNode` during Play Mode**
+  (`NavigationGraphEditorWindow.UpdateLiveFocusHighlight`, `NavigationGraphView.SetLiveFocusedNode`,
+  `NavigationNodeView.SetLiveFocused`) — a green border on whichever node a running
+  `NavigationInputRouter`'s manager currently has focused, found by matching `Manager.Graph` against
+  the open graph asset via `FindObjectsByType<NavigationInputRouter>`. No registry/event was added
+  to `NavigationManager` itself for this — it's Editor-only polling on top of already-public runtime
+  state, so it adds zero runtime cost or coupling outside the Editor assembly.
