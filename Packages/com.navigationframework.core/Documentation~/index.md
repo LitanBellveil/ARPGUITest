@@ -307,3 +307,32 @@ hand in the Graph Window.
   capture-and-restore machinery; given Generate From Scene and Auto Connect are typically run before
   fine-tuning (not mid-fine-tuning), losing the transient view state on refresh was judged an
   acceptable trade-off rather than something worth the extra complexity right now.
+
+## Phase 7 foundation — Input driver abstraction
+
+Before writing the Samples themselves, Phase 7 adds a small `Runtime/Input/` module so every sample
+doesn't reinvent `NavigationTestDriver`'s mix of graph-lifecycle boilerplate and keyboard polling in
+one file.
+
+| Member | Role |
+|---|---|
+| `INavigationInputSource` | Runtime-only interface: `DirectionPressed` (`Action<Direction>`), `SubmitPressed`, `CancelPressed`. No reference to Unity's Input System or any project's PlayerControls asset — implementations own that. |
+| `NavigationInputRouter` (`MonoBehaviour`) | Owns a `NavigationManager` (exposed via `Manager`, for UI code to subscribe to `NodeChanged`). On `OnEnable`, calls `SetGraph` then `SelectDefault` (or `SwitchToPage(initialPageId)` if set), and subscribes to the assigned `inputSource`'s three events, forwarding them to `Manager.Move`/`Submit`/`Cancel`. Unsubscribes on `OnDisable`. |
+
+### Design notes and deviations
+
+- **`inputSource` is serialized as a plain `MonoBehaviour` field, not the interface itself.** Unity's
+  Inspector cannot serialize a reference typed as a C# interface directly; the field is validated
+  with an `as INavigationInputSource` cast in `OnEnable` (logging an error if it fails) instead of a
+  custom property drawer, since that was judged unnecessary complexity for a field with a clear
+  failure mode.
+- **Concrete input sources (keyboard, gamepad, touch) are deliberately left out of Runtime.** This is
+  the direct continuation of the project's original goal — "no coupling to PlayerControls/
+  InputActions" — extended to mean the framework never references a specific input backend at all,
+  not just a specific project's action asset. `Samples~` is where sample-specific (but still
+  reusable across samples) input source implementations belong, since they are never compiled as
+  part of the package itself and are the one place that legitimately needs to depend on Unity's
+  Input System.
+- **`NavigationTestDriver.cs` is superseded, not replaced in place.** It stays as-is until a
+  `Samples~` keyboard input source exists to replace it, per its own "delete this once samples land"
+  note from Phase 1-3 manual testing.
