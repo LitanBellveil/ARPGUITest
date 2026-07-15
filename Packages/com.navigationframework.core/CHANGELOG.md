@@ -87,6 +87,14 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   rather than duplicating the algorithm. The Inventory sample's `InventoryController` was updated to
   use it (`initialItemCount` replaces the old `itemCount`/`columns` fields; adds a public `AddItem`
   demonstrating runtime growth).
+- `NavigationScrollViewAnchor` (`Runtime/Components/`, a `NavigationSelectable` subclass) and
+  `NavigationDynamicListConnector.AttachDynamicList` (`Runtime/Navigation/`): lets a page mixing
+  regular authored buttons with one dynamic list (e.g. a ScrollView) be wired in a single Generate
+  From Scene + Auto Connect pass at edit time. The anchor is a placeholder positioned where the list
+  goes, connected to its neighbors like any other button; at runtime, `AttachDynamicList`
+  transplants the anchor's connections onto the real list's first/last node once the list is
+  spawned, then disables the anchor so it's never itself reachable. The Inventory sample's
+  `InventoryController` gained an optional `Scroll View Anchor` field using this.
 
 ## [0.1.0] - 2026-07-10
 

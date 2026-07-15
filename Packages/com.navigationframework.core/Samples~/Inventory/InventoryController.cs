@@ -16,6 +16,13 @@ namespace NavigationFramework.Samples
     /// <see cref="slotParent"/> uses, without hardcoding row/column counts. Submitting a slot
     /// discards it, demonstrating that a connection whose target has since been unregistered simply
     /// fails to resolve on the next Move — no cleanup of the far side of that edge is required.
+    /// <para/>
+    /// If this list sits on a page with other regular authored buttons around it (not just above —
+    /// see the README), assign <see cref="scrollViewAnchor"/> to a
+    /// <see cref="NavigationScrollViewAnchor"/> placeholder positioned where the list goes, wired
+    /// into the rest of the page like any other button via Generate From Scene + Auto Connect. This
+    /// controller transplants that anchor's connections onto the real list once, via
+    /// <see cref="NavigationDynamicListConnector.AttachDynamicList"/>, and disables the anchor.
     /// </summary>
     public class InventoryController : MonoBehaviour
     {
@@ -23,6 +30,7 @@ namespace NavigationFramework.Samples
         [SerializeField] private RectTransform slotParent;
         [SerializeField] private NavigationSelectable slotPrefab;
         [SerializeField] private int initialItemCount = 12;
+        [SerializeField] private NavigationScrollViewAnchor scrollViewAnchor;
 
         private readonly List<NavigationNode> spawnedNodes = new List<NavigationNode>();
 
@@ -37,6 +45,12 @@ namespace NavigationFramework.Samples
 
             if (spawnedNodes.Count > 0)
             {
+                if (scrollViewAnchor != null)
+                {
+                    NavigationDynamicListConnector.AttachDynamicList(
+                        router.Manager.Graph, scrollViewAnchor, spawnedNodes[0], spawnedNodes[spawnedNodes.Count - 1]);
+                }
+
                 router.Manager.SelectNode(spawnedNodes[0].Id);
             }
         }

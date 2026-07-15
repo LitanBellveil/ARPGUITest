@@ -415,6 +415,30 @@ checked in as hand-authored `.unity`/`.prefab` YAML, only the C# and instruction
 - **A geometry-connected dynamic list still needs one connection hand-wired at runtime if something
   else (e.g. a filter/tab bar) sits above it.** `NavigationGeometryConnector.Connect` only connects
   nodes within the list passed to it — an authored "entry" node from the graph asset isn't part of
-  that list, so linking the entry node to the list's first item is left to the caller (documented in
-  the Inventory sample's README, not automated, since there's no single "which direction/which node"
-  answer that generalizes).
+  that list, so linking the entry node to the list's first item is left to the caller. Superseded by
+  `NavigationScrollViewAnchor`/`NavigationDynamicListConnector` below for the general case of *any*
+  number of neighbors in *any* direction, not just one entry point from one side.
+- **`NavigationScrollViewAnchor` (`Runtime/Components/`) + `NavigationDynamicListConnector.AttachDynamicList`
+  (`Runtime/Navigation/`) let a page mix regular authored buttons with one dynamic list in a single
+  Generate From Scene + Auto Connect pass.** Came from retrofitting the framework onto a page that
+  has a ScrollView (dynamic, item count grows at runtime) alongside ordinary static buttons — the
+  dynamic list's nodes don't exist at edit time, so there was nothing for the surrounding buttons'
+  connections to target when the whole page gets Auto-Connected together. `NavigationScrollViewAnchor`
+  is a plain `NavigationSelectable` subclass with no added behavior — its only purpose is being a
+  distinct, recognizable type so Generate From Scene picks it up as a normal node (wired to its
+  neighbors exactly like a button would be) while still being identifiable at runtime as "this one's
+  a stand-in, not a real widget." `AttachDynamicList` then transplants every one of the anchor's
+  connections onto whichever real boundary node (first or last, chosen by direction — Up/Left→first,
+  Down/Right→last) is now adjacent to that neighbor, redirects the neighbors' own connections the
+  same way, and disables the anchor.
+  - **Assumes a single row or column, not a grid** — a grid's side/interior edges wouldn't get
+    outside connections from this, only the very first and last cell in spawn order would. Extending
+    it to grids would need knowing which cells sit on which edge, which isn't information this
+    algorithm has (it only knows first/last in a flat list) — left for a future need to drive the
+    design rather than guessed at now.
+  - **Intended to run exactly once**, right after the list's first population. It only adds
+    connections rather than replacing anything, so a second call duplicates whatever the first call
+    added — most visibly on the first node, which usually doesn't change across list growth (unlike
+    the last node, which does). A list whose trailing boundary needs to keep tracking "whatever's
+    currently last" after growth has to redirect that one connection by hand instead of re-running
+    the whole transplant.
