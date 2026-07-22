@@ -358,6 +358,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: c5b863523b6243841aa7005dcae58ac1, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _WeaponMaskMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _ZOffsetMaskTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -668,6 +672,7 @@ Material:
     - _EnableNiloToonSelfShadowMappingNormalBias: 0
     - _EnablePerMaterialDissolve: 0
     - _EnablePerMaterialFlash: 0
+    - _EnablePerMaterialRef: 0
     - _EnableRendering: 1
     - _EnableShadowColor: 0
     - _EnableUVEditGroup: 0
@@ -747,6 +752,7 @@ Material:
     - _IndirectLightFlatten: 1
     - _IsFace: 0
     - _IsSkin: 0
+    - _IsWeapon: 0
     - _LightingStyleDirectionalLightRenderFacePreset: 0
     - _LightingStyleFaceOverrideGroup: 0
     - _LightingStyleGroup: 0
@@ -859,6 +865,7 @@ Material:
     - _PerMaterialDissolveThresholdMapUVIndex: 0
     - _PerMaterialDissolveThresholdMapUVTiling: 1
     - _PerMaterialEnableDepthTextureRimLightAndShadow: 1
+    - _PerMaterialShadowStrengthOverrideEnable: 0
     - _PerspectiveRemovalAmount: 0
     - _PerspectiveRemovalEndHeight: 1
     - _PerspectiveRemovalRadius: 1
@@ -889,6 +896,9 @@ Material:
     - _ReceiveURPShadowMappingAmount: 1
     - _ReceiveURPShadowMappingAmountForFace: 1
     - _ReceiveURPShadowMappingAmountForNonFace: 1
+    - _Refedge: 0
+    - _Refintensity: 1
+    - _Refsmooth: 0
     - _RenderCharacter: 1
     - _RenderFaceGroup: 0
     - _RenderFacePreset: 2
@@ -1078,7 +1088,8 @@ Material:
     - _CharacterAreaColorFillTextureUVTilingOffset: {r: 1, g: 1, b: 0, a: 0}
     - _CharacterBoundCenterPosWS: {r: 0, g: 0, b: 0, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _DepthTexRimLightAndShadowWidthMultiplierFromVertexColorChannelMask: {r: 0, g: 1, b: 0, a: 0}
+    - _DepthTexRimLightAndShadowWidthMultiplierFromVertexColorChannelMask: {r: 0,
+        g: 1, b: 0, a: 0}
     - _DepthTexRimLightAndShadowWidthTexChannelMask: {r: 0, g: 1, b: 0, a: 0}
     - _DepthTexRimLightMaskTexChannelMask: {r: 0, g: 1, b: 0, a: 0}
     - _DepthTexRimLightTintColor: {r: 1, g: 1, b: 1, a: 1}
@@ -1143,7 +1154,8 @@ Material:
     - _OutlineZOffsetMaskTexChannelMask: {r: 0, g: 1, b: 0, a: 0}
     - _OverrideOutlineColorTexTintColor: {r: 1, g: 1, b: 1, a: 1}
     - _OverrideShadowColorMaskMapChannelMask: {r: 0, g: 1, b: 0, a: 0}
-    - _OverrideShadowColorTexTintColor: {r: 0.78431374, g: 0.78431374, b: 0.88235295, a: 1}
+    - _OverrideShadowColorTexTintColor: {r: 0.78431374, g: 0.78431374, b: 0.88235295,
+        a: 1}
     - _PerCharEffectAddColor: {r: 0, g: 0, b: 0, a: 1}
     - _PerCharEffectLerpColor: {r: 1, g: 1, b: 0, a: 0}
     - _PerCharEffectRimColor: {r: 0, g: 0, b: 0, a: 1}
@@ -1158,6 +1170,7 @@ Material:
     - _PerMaterialDissolvePatternMapChannelMask: {r: 1, g: 0, b: 0, a: 0}
     - _PerMaterialDissolveThresholdMapChannelMask: {r: 0, g: 1, b: 0, a: 0}
     - _RampLightingSampleUvYTexChannelMask: {r: 0, g: 1, b: 0, a: 0}
+    - _RefColor: {r: 0, g: 0, b: 0, a: 0}
     - _ScreenSpaceOutlineDepthSensitivityTexChannelMask: {r: 0, g: 1, b: 0, a: 0}
     - _ScreenSpaceOutlineNormalsSensitivityTexChannelMask: {r: 0, g: 1, b: 0, a: 0}
     - _ScreenSpaceOutlineOcclusionAreaTintColor: {r: 1, g: 1, b: 1, a: 1}
@@ -1186,6 +1199,7 @@ Material:
     - _UV3CenterPivotScalePos: {r: 1, g: 1, b: 0, a: 0}
     - _UV3ScaleOffset: {r: 1, g: 1, b: 0, a: 0}
     - _UV3ScrollSpeed: {r: 0, g: 0, b: 0, a: 0}
+    - _WeaponMaskMapChannelMask: {r: 0, g: 1, b: 0, a: 0}
     - _ZOffsetMaskMapChannelMask: {r: 0, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

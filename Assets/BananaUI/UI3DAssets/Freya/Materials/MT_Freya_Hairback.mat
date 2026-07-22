@@ -24,15 +24,13 @@ Material:
   - _SHADING_GRADEMAP
   - _SPECULARHIGHLIGHTS
   m_InvalidKeywords:
-  - _GLOSSYREFLECTIONS_OFF
   - _PER_MAT_COLOR_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: 2000
   stringTagMap: {}
-  disabledShaderPasses:
-  - MOTIONVECTORS
+  disabledShaderPasses: []
   m_LockedProperties: _DepthTexRimLightIntensity _UIDisplayMode
   m_SavedProperties:
     serializedVersion: 3
@@ -42,7 +40,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 4c4b5be9a72f60c488e66409c51ec09d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMapStackingLayer10MaskTex:
@@ -217,12 +215,28 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _HairSpecularMapUS:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _HairSpecularTintMapUS:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _HairSpecularUVShiftingMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _HairSpecularWarpMapUS:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _HairStrandSpecularTintMap:
         m_Texture: {fileID: 2800000, guid: 27352eca6b2e11946a887c73bd4a54f8, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 52011df24623ed54bb75ff15a471ef7e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MatCapAdditiveMap:
@@ -684,7 +698,7 @@ Material:
     - _EnvironmentReflectionSmoothnessMultiplier: 1
     - _EnvironmentReflectionTintAlbedo: 1
     - _EnvironmentReflectionUsage: 1
-    - _EnvironmentReflections: 0
+    - _EnvironmentReflections: 1
     - _ExtraThickOutlineEnabled: 0
     - _ExtraThickOutlineMaxFinalWidth: 100
     - _ExtraThickOutlineWidth: 4
@@ -727,6 +741,15 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
+    - _HairSpecularMapUVIndexUS: 1
+    - _HairSpecularShiftingMidPoint: 0
+    - _HairSpecularShiftingScale: 0
+    - _HairSpecularTintMapUSTexIntensity: 1
+    - _HairSpecularTintMapUVIndexUS: 0
+    - _HairSpecularUVShiftingInvertUVY: 0
+    - _HairSpecularWarpMapApplyRange: 0
+    - _HairSpecularWarpMapMidPointOffset: 0
+    - _HairSpecularWarpMapStrength: 1
     - _HairStrandSpecularMainExponent: 212
     - _HairStrandSpecularMainIntensity: 10
     - _HairStrandSpecularMixWithBaseMapColor: 0.8
@@ -855,7 +878,8 @@ Material:
     - _PerMaterialDissolveThresholdMapInvertColor: 0
     - _PerMaterialDissolveThresholdMapUVIndex: 0
     - _PerMaterialDissolveThresholdMapUVTiling: 1
-    - _PerMaterialEnableDepthTextureRimLightAndShadow: 1
+    - _PerMaterialEnableDepthTextureRimLightAndShadow: 0
+    - _PerMaterialShadowStrengthOverrideEnable: 0
     - _PerspectiveRemovalAmount: 0
     - _PerspectiveRemovalEndHeight: 1
     - _PerspectiveRemovalRadius: 1
@@ -927,7 +951,7 @@ Material:
     - _SkinMaskMapRemapMinMaxSlider: 1
     - _SkinMaskMapRemapStart: 0
     - _SkinShadowBrightness: 1
-    - _Smoothness: 0
+    - _Smoothness: 0.5
     - _SmoothnessGroup: 0
     - _SmoothnessMapInputIsRoughnessMap: 0
     - _SmoothnessMapRemapEnd: 1
@@ -1006,6 +1030,7 @@ Material:
     - _UseSmoothnessMap: 0
     - _UseSpecular: 1
     - _UseSpecularColorTintMap: 0
+    - _UseViewDependentUVShiftingSpecular: 0
     - _UseZOffsetMaskTex: 0
     - _WorkflowMode: 1
     - _XRMotionVectorsPass: 1
@@ -1020,7 +1045,7 @@ Material:
     - _AlphaOverrideTexChannelMask: {r: 0, g: 1, b: 0, a: 0}
     - _BackFaceBaseMapReplaceColor: {r: 0, g: 0, b: 0, a: 0}
     - _BackFaceTintColor: {r: 1, g: 1, b: 1, a: 1}
-    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _BaseColor: {r: 1.3569776, g: 1.4282247, b: 1.490566, a: 1}
     - _BaseColor2: {r: 1, g: 1, b: 1, a: 1}
     - _BaseMapStackingLayer10MaskTexChannel: {r: 0, g: 1, b: 0, a: 0}
     - _BaseMapStackingLayer10TexUVAnimSpeed: {r: 0, g: 0, b: 0, a: 0}
@@ -1078,8 +1103,9 @@ Material:
     - _CharacterAreaColorFillTextureUVScrollSpeed: {r: 0, g: 0, b: 0, a: 1}
     - _CharacterAreaColorFillTextureUVTilingOffset: {r: 1, g: 1, b: 0, a: 0}
     - _CharacterBoundCenterPosWS: {r: 0, g: 0, b: 0, a: 1}
-    - _Color: {r: 1.3569776, g: 1.4282247, b: 1.490566, a: 1}
-    - _DepthTexRimLightAndShadowWidthMultiplierFromVertexColorChannelMask: {r: 0, g: 1, b: 0, a: 0}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _DepthTexRimLightAndShadowWidthMultiplierFromVertexColorChannelMask: {r: 0,
+        g: 1, b: 0, a: 0}
     - _DepthTexRimLightAndShadowWidthTexChannelMask: {r: 0, g: 1, b: 0, a: 0}
     - _DepthTexRimLightMaskTexChannelMask: {r: 0, g: 1, b: 0, a: 0}
     - _DepthTexRimLightTintColor: {r: 1, g: 1, b: 1, a: 1}
@@ -1118,8 +1144,12 @@ Material:
     - _FaceShadowTintColor2: {r: 1, g: 1, b: 1, a: 1}
     - _FaceUpDirection: {r: 0, g: 1, b: 0, a: 1}
     - _FlashColor: {r: 0, g: 0, b: 0, a: 0}
+    - _HairSpecularMainColorUS: {r: 1, g: 1, b: 1, a: 1}
+    - _HairSpecularWarpMapChannelMask: {r: 0, g: 1, b: 0, a: 0}
+    - _HairSpecularWarpMapUVTiling: {r: 1, g: 1, b: 0, a: 0}
     - _HairStrandSpecularMainColor: {r: 1, g: 1, b: 1, a: 1}
-    - _HairStrandSpecularSecondColor: {r: 0.33775365, g: 0.34126016, b: 0.4339623, a: 1}
+    - _HairStrandSpecularSecondColor: {r: 0.33775365, g: 0.34126016, b: 0.4339623,
+        a: 1}
     - _HairStrandSpecularTintMapTilingXyOffsetZw: {r: 1, g: 1, b: 1, a: 1}
     - _HeadBonePositionWS: {r: 0, g: 0, b: 0, a: 1}
     - _LitToShadowTransitionAreaTintColor: {r: 1, g: 1, b: 1, a: 1}
@@ -1144,7 +1174,8 @@ Material:
     - _OutlineZOffsetMaskTexChannelMask: {r: 0, g: 1, b: 0, a: 0}
     - _OverrideOutlineColorTexTintColor: {r: 1, g: 1, b: 1, a: 1}
     - _OverrideShadowColorMaskMapChannelMask: {r: 0, g: 1, b: 0, a: 0}
-    - _OverrideShadowColorTexTintColor: {r: 0.5411765, g: 0.58431375, b: 0.68668544, a: 1}
+    - _OverrideShadowColorTexTintColor: {r: 0.5411765, g: 0.58431375, b: 0.68668544,
+        a: 1}
     - _PerCharEffectAddColor: {r: 0, g: 0, b: 0, a: 1}
     - _PerCharEffectLerpColor: {r: 1, g: 1, b: 0, a: 0}
     - _PerCharEffectRimColor: {r: 0, g: 0, b: 0, a: 1}
@@ -1167,6 +1198,7 @@ Material:
     - _ScreenSpaceOutlineTintColor: {r: 0.1, g: 0.1, b: 0.1, a: 1}
     - _SelfShadowTintColor: {r: 1, g: 1, b: 1, a: 1}
     - _ShadingGradeMapChannelMask: {r: 0, g: 1, b: 0, a: 0}
+    - _ShiftingMapChannelMaskUS: {r: 0, g: 1, b: 0, a: 0}
     - _SkinMaskMapChannelMask: {r: 0, g: 1, b: 0, a: 0}
     - _SkinShadowTintColor: {r: 1, g: 0.8, b: 0.8, a: 1}
     - _SkinShadowTintColor2: {r: 1, g: 1, b: 1, a: 1}
@@ -1175,6 +1207,7 @@ Material:
     - _SpecularColor: {r: 0.21622464, g: 0.33614698, b: 0.4056604, a: 1}
     - _SpecularColorTintMapTilingXyOffsetZw: {r: 1, g: 1, b: 0, a: 0}
     - _SpecularMapChannelMask: {r: 0, g: 0, b: 1, a: 0}
+    - _SpecularMapChannelMaskUS: {r: 0, g: 0, b: 1, a: 0}
     - _URPShadowMappingTintColor: {r: 1, g: 1, b: 1, a: 1}
     - _UV0CenterPivotScalePos: {r: 1, g: 1, b: 0, a: 0}
     - _UV0ScaleOffset: {r: 1, g: 1, b: 0, a: 0}
@@ -1204,4 +1237,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  version: 10
+  version: 7
