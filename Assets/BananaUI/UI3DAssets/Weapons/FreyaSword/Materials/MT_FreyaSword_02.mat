@@ -1080,8 +1080,7 @@ Material:
     - _CharacterAreaColorFillTextureUVTilingOffset: {r: 1, g: 1, b: 0, a: 0}
     - _CharacterBoundCenterPosWS: {r: 0, g: 0, b: 0, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _DepthTexRimLightAndShadowWidthMultiplierFromVertexColorChannelMask: {r: 0,
-        g: 1, b: 0, a: 0}
+    - _DepthTexRimLightAndShadowWidthMultiplierFromVertexColorChannelMask: {r: 0, g: 1, b: 0, a: 0}
     - _DepthTexRimLightAndShadowWidthTexChannelMask: {r: 0, g: 1, b: 0, a: 0}
     - _DepthTexRimLightMaskTexChannelMask: {r: 0, g: 1, b: 0, a: 0}
     - _DepthTexRimLightTintColor: {r: 1, g: 1, b: 1, a: 1}
@@ -1146,8 +1145,7 @@ Material:
     - _OutlineZOffsetMaskTexChannelMask: {r: 0, g: 1, b: 0, a: 0}
     - _OverrideOutlineColorTexTintColor: {r: 1, g: 1, b: 1, a: 1}
     - _OverrideShadowColorMaskMapChannelMask: {r: 0, g: 1, b: 0, a: 0}
-    - _OverrideShadowColorTexTintColor: {r: 0.78431374, g: 0.78431374, b: 0.88235295,
-        a: 1}
+    - _OverrideShadowColorTexTintColor: {r: 0.78431374, g: 0.78431374, b: 0.88235295, a: 1}
     - _PerCharEffectAddColor: {r: 0, g: 0, b: 0, a: 1}
     - _PerCharEffectLerpColor: {r: 1, g: 1, b: 0, a: 0}
     - _PerCharEffectRimColor: {r: 0, g: 0, b: 0, a: 1}

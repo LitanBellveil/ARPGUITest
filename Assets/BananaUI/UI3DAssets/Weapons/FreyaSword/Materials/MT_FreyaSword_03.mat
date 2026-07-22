@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  version: 7
+  version: 10
 --- !u!21 &2100000
 Material:
   serializedVersion: 8
@@ -35,15 +35,16 @@ Material:
   - _SKIN_MASK_ON
   - _SMOOTHNESSMAP
   - _SPECULARHIGHLIGHTS
-  m_InvalidKeywords: []
+  m_InvalidKeywords:
+  - _GLOSSYREFLECTIONS_OFF
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
+  m_DoubleSidedGI: 1
   m_CustomRenderQueue: 2000
   stringTagMap: {}
   disabledShaderPasses:
-  - DepthOnly
   - DepthNormalsOnly
+  - MOTIONVECTORS
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
@@ -53,7 +54,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: 0a03189ad08d1b949a532b2ab20c29b7, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMapStackingLayer10MaskTex:
@@ -189,7 +190,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
-        m_Texture: {fileID: 2800000, guid: 1d7eaa43273cb124db7f9bc4a064c4d9, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMaskMap:
@@ -233,7 +234,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 52011df24623ed54bb75ff15a471ef7e, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MatCapAdditiveMap:
@@ -690,7 +691,7 @@ Material:
     - _EnvironmentReflectionSmoothnessMultiplier: 1
     - _EnvironmentReflectionTintAlbedo: 1
     - _EnvironmentReflectionUsage: 1
-    - _EnvironmentReflections: 1
+    - _EnvironmentReflections: 0
     - _ExtraThickOutlineEnabled: 0
     - _ExtraThickOutlineMaxFinalWidth: 100
     - _ExtraThickOutlineWidth: 4
@@ -791,6 +792,7 @@ Material:
     - _MatCapOcclusionPreset: 0
     - _MatCapOcclusionUvScale: 1
     - _Metallic: 0
+    - _Mode: 0
     - _MultiplyBRPColor: 0
     - _MultiplyBaseColorToEmissionColor: 0.6
     - _MultiplyBaseColorToSpecularColor: 0.5
@@ -929,7 +931,7 @@ Material:
     - _SkinMaskMapRemapMinMaxSlider: 1
     - _SkinMaskMapRemapStart: 0
     - _SkinShadowBrightness: 1
-    - _Smoothness: 0.5
+    - _Smoothness: 0
     - _SmoothnessGroup: 0
     - _SmoothnessMapInputIsRoughnessMap: 0
     - _SmoothnessMapRemapEnd: 1
@@ -973,6 +975,7 @@ Material:
     - _UV2RotatedAngle: 0
     - _UV3RotateSpeed: 0
     - _UV3RotatedAngle: 0
+    - _UVSec: 0
     - _UnityCameraDepthTextureWriteOutlineExtrudedPosition: 0
     - _UseAlphaOverrideTex: 0
     - _UseDepthTexRimLightAndShadowWidthMultiplierFromVertexColor: 0

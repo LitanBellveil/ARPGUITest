@@ -17,14 +17,18 @@ Material:
   - _ISFACE
   - _OVERRIDE_SHADOWCOLOR_BY_TEXTURE
   - _RECEIVE_URP_SHADOW
-  m_InvalidKeywords: []
+  m_InvalidKeywords:
+  - _GLOSSYREFLECTIONS_OFF
+  - _SURFACE_TYPE_TRANSPARENT
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2501
+  m_CustomRenderQueue: 3000
   stringTagMap: {}
   disabledShaderPasses:
   - NiloToonOutline
+  - MOTIONVECTORS
+  - DepthOnly
   m_LockedProperties: _BaseMapBrightness
   m_SavedProperties:
     serializedVersion: 3
@@ -34,7 +38,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: f2922c299a792bf4da4c53e4e1ab6a2f, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMapStackingLayer10MaskTex:
@@ -214,7 +218,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 52011df24623ed54bb75ff15a471ef7e, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MatCapAdditiveMap:
@@ -554,7 +558,7 @@ Material:
     - _BaseMapStackingLayer9TexUVRotateSpeed: 0
     - _BaseMapStackingLayer9TexUVRotatedAngle: 0
     - _BaseMapUVIndex: 0
-    - _Blend: 0
+    - _Blend: 1
     - _BlendModePreserveSpecular: 1
     - _BlendOp: 0
     - _BumpMapApplytoFaces: 0
@@ -633,7 +637,7 @@ Material:
     - _DitherFadeoutAmount: 0
     - _DitherFadeoutNormalScaleFix: 1
     - _DstBlend: 10
-    - _DstBlendAlpha: 0
+    - _DstBlendAlpha: 10
     - _DynamicEyeFinalBrightness: 2
     - _DynamicEyePupilDepthScale: 0.4
     - _DynamicEyePupilMaskSoftness: 0.216
@@ -675,7 +679,7 @@ Material:
     - _EnvironmentReflectionSmoothnessMultiplier: 1
     - _EnvironmentReflectionTintAlbedo: 1
     - _EnvironmentReflectionUsage: 1
-    - _EnvironmentReflections: 1
+    - _EnvironmentReflections: 0
     - _ExtraThickOutlineEnabled: 0
     - _ExtraThickOutlineMaxFinalWidth: 100
     - _ExtraThickOutlineWidth: 4
@@ -915,7 +919,7 @@ Material:
     - _SkinMaskMapRemapMinMaxSlider: 1
     - _SkinMaskMapRemapStart: 0
     - _SkinShadowBrightness: 1
-    - _Smoothness: 0.5
+    - _Smoothness: 0
     - _SmoothnessGroup: 0
     - _SmoothnessMapInputIsRoughnessMap: 0
     - _SmoothnessMapRemapEnd: 1
@@ -948,7 +952,7 @@ Material:
     - _StencilPreset: 1
     - _StencilRef: 75
     - _SupportClothDynamics: 0
-    - _Surface: 0
+    - _Surface: 1
     - _SurfaceTypePreset: 3
     - _UIDisplayMode: 10000
     - _UV0RotateSpeed: 0
@@ -1008,7 +1012,7 @@ Material:
     - _AlphaOverrideTexChannelMask: {r: 0, g: 0, b: 1, a: 0}
     - _BackFaceBaseMapReplaceColor: {r: 0, g: 0, b: 0, a: 0}
     - _BackFaceTintColor: {r: 1, g: 1, b: 1, a: 1}
-    - _BaseColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.92941177}
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 0.47058824}
     - _BaseColor2: {r: 1, g: 1, b: 1, a: 1}
     - _BaseMapStackingLayer10MaskTexChannel: {r: 0, g: 1, b: 0, a: 0}
     - _BaseMapStackingLayer10TexUVAnimSpeed: {r: 0, g: 0, b: 0, a: 0}
@@ -1066,9 +1070,8 @@ Material:
     - _CharacterAreaColorFillTextureUVScrollSpeed: {r: 0, g: 0, b: 0, a: 1}
     - _CharacterAreaColorFillTextureUVTilingOffset: {r: 1, g: 1, b: 0, a: 0}
     - _CharacterBoundCenterPosWS: {r: 0, g: 0, b: 0, a: 1}
-    - _Color: {r: 1, g: 1, b: 1, a: 0.47058824}
-    - _DepthTexRimLightAndShadowWidthMultiplierFromVertexColorChannelMask: {r: 0,
-        g: 1, b: 0, a: 0}
+    - _Color: {r: 0.5, g: 0.5, b: 0.5, a: 0.92941177}
+    - _DepthTexRimLightAndShadowWidthMultiplierFromVertexColorChannelMask: {r: 0, g: 1, b: 0, a: 0}
     - _DepthTexRimLightAndShadowWidthTexChannelMask: {r: 0, g: 1, b: 0, a: 0}
     - _DepthTexRimLightMaskTexChannelMask: {r: 0, g: 1, b: 0, a: 0}
     - _DepthTexRimLightTintColor: {r: 1, g: 1, b: 1, a: 1}
@@ -1192,4 +1195,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  version: 7
+  version: 10

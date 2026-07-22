@@ -1076,8 +1076,7 @@ Material:
     - _CharacterAreaColorFillTextureUVTilingOffset: {r: 1, g: 1, b: 0, a: 0}
     - _CharacterBoundCenterPosWS: {r: 0, g: 0, b: 0, a: 1}
     - _Color: {r: 0.8, g: 0.8, b: 0.8, a: 1}
-    - _DepthTexRimLightAndShadowWidthMultiplierFromVertexColorChannelMask: {r: 0,
-        g: 1, b: 0, a: 0}
+    - _DepthTexRimLightAndShadowWidthMultiplierFromVertexColorChannelMask: {r: 0, g: 1, b: 0, a: 0}
     - _DepthTexRimLightAndShadowWidthTexChannelMask: {r: 0, g: 1, b: 0, a: 0}
     - _DepthTexRimLightMaskTexChannelMask: {r: 0, g: 1, b: 0, a: 0}
     - _DepthTexRimLightTintColor: {r: 1, g: 1, b: 1, a: 1}
@@ -1135,16 +1134,14 @@ Material:
     - _OutlinePreLightingReplaceColor: {r: 1, g: 1, b: 1, a: 1}
     - _OutlineReplaceColor: {r: 1, g: 1, b: 1, a: 1}
     - _OutlineTintColor: {r: 0.25, g: 0.25, b: 0.25, a: 1}
-    - _OutlineTintColorSkinAreaOverride: {r: 0.754717, g: 0.5462745, b: 0.52331793,
-        a: 1}
+    - _OutlineTintColorSkinAreaOverride: {r: 0.754717, g: 0.5462745, b: 0.52331793, a: 1}
     - _OutlineWidthMaskFromVertexColor: {r: 0, g: 1, b: 0, a: 0}
     - _OutlineWidthTexChannelMask: {r: 0, g: 1, b: 0, a: 0}
     - _OutlineZOffsetMaskFromVertexColor: {r: 0, g: 1, b: 0, a: 0}
     - _OutlineZOffsetMaskTexChannelMask: {r: 0, g: 1, b: 0, a: 0}
     - _OverrideOutlineColorTexTintColor: {r: 1, g: 1, b: 1, a: 1}
     - _OverrideShadowColorMaskMapChannelMask: {r: 0, g: 1, b: 0, a: 0}
-    - _OverrideShadowColorTexTintColor: {r: 0.8490566, g: 0.56470275, b: 0.6174465,
-        a: 1}
+    - _OverrideShadowColorTexTintColor: {r: 0.8490566, g: 0.56470275, b: 0.6174465, a: 1}
     - _PerCharEffectAddColor: {r: 0, g: 0, b: 0, a: 1}
     - _PerCharEffectLerpColor: {r: 1, g: 1, b: 0, a: 0}
     - _PerCharEffectRimColor: {r: 0, g: 0, b: 0, a: 1}
